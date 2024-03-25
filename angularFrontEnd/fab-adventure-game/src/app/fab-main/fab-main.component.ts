@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { AdventureServiceService } from '../service/adventure-service.service';
-import { map } from 'rxjs';
-
+import { Deck, Card } from '../models/decks'; 
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-fab-main',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './fab-main.component.html',
   styleUrl: './fab-main.component.scss'
 })
@@ -15,9 +15,18 @@ export class FabMainComponent {
   constructor(deckService: AdventureServiceService){
     this.deckService = deckService
   }
-  public response: any = 'true'
+  public response: Deck = new Object() as Deck;
+  public deckUrl: string = 'https://api.fabdb.net/decks/';
+  public cardList: Array<Card> = new Array<Card>();
 
   public callService (){
-   this.response = this.deckService.getDeck().subscribe(decks => console.log(decks));
+   this.deckService.getDeck(this.deckUrl).subscribe((data) => {
+      this.response = data;
+    });
+    this.cardList = this.response.cards;
+
+  }
+  public onKey(event: any){
+    this.deckUrl = event.target.value;
   }
 }

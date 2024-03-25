@@ -1,2 +1,6 @@
-<button (click)="callService()">Press Me</button>
-<div>{{response}}</div>
+<input (keyup)="onKey($event)" />
+<button (click)="callService()">Click me!</button>
+
+<div *ngFor="let card of cardList;" >
+    <div>{{card.name}}</div>   
+</div>

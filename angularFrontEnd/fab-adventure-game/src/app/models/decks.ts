@@ -1,22 +1,32 @@
-export class users {
-    id!: number 
-    username!: string
-    wins!: string
-    level!: number
-    deckLink!: string
-    created_at!: string
+export interface CardStats {
+    cost: string;
+    defense: string;
+    resource: string;
 }
 
-export class decks {
-    fabrary_link!: string
-    user_id!: number
-    current_deck_list!: Array<deck>
+export interface Card {
+    identifier: string;
+    name: string;
+    rarity: string;
+    stats: CardStats;
+    text: string;
+    keywords: string[];
+    flavour: string;
+    comments: string;
+    image: string;
+    total: number;
 }
 
-export class deck {
-    cardName!: string
-    cardPrice!: string
-    armorFlag!: string
-    cardRarity!: string
-  
+export interface Deck {
+    slug: string;
+    name: string;
+    format: string;
+    notes: string | null;
+    visibility: string;
+    cardBack: number;
+    createdAt: string;
+    totalVotes: number;
+    myVote: number;
+    cards: Card[];
+    sideboard: any[];
 }
