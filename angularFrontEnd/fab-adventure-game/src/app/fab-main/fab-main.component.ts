@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AdventureServiceService } from '../service/adventure-service.service';
-import { Deck, Card } from '../models/decks'; 
+import { Deck, Card } from '../models/fabDbDecks'; 
 import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-fab-main',

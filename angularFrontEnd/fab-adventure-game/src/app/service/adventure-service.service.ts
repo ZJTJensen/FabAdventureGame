@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Deck } from '../models/decks';
+import { Deck } from '../models/fabDbDecks';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 
