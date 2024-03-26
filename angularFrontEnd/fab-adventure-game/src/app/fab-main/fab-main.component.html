@@ -1,6 +1,17 @@
-<input (keyup)="onKey($event)" />
-<button (click)="callService()">Click me!</button>
+<div>
+    <div *ngIf="response.slug === undefined"> 
+        <span>Create Account / login </span>
+        <input type="text" (keyup)="onKey($event)" />
+        <button (click)="login()">login</button>
+    </div>
+</div>
 
-<div *ngFor="let card of cardList;" >
-    <div>{{card.name}}</div>   
+
+<div *ngIf="response.slug !== undefined">
+    <div *ngFor="let card of cardList;" >
+        <div>{{card.name}}</div>   
+    </div>
+    <app-card-select></app-card-select>
+    <button (click)="goToCardPicker()">pick random card</button>
+
 </div>

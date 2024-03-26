@@ -6,7 +6,7 @@ import { Observable, map } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AdventureServiceService {
+export class FabDbService {
   private http: HttpClient;
   constructor(http: HttpClient) { 
     this.http = http;
@@ -15,9 +15,6 @@ export class AdventureServiceService {
   configUrl = 'https://api.fabdb.net/decks/';
 
 getDeck(deckUrl: string): Observable<Deck> {
-  const fianlUrl = this.configUrl + deckUrl.substring(deckUrl.lastIndexOf('/') + 1);
-
-  return this.http.get<Deck>(fianlUrl);
-
+  return this.http.get<Deck>(this.configUrl + deckUrl);
 }
 }
