@@ -23,6 +23,7 @@ export class FabMainComponent {
   public response: any = new Object() as Deck;
   public deckUrl: string = "";
   public cardList: Array<Card> = new Array<Card>();
+  public limiters: any = new Object();
 
   public login() {
     this.getUser().pipe(
@@ -46,6 +47,9 @@ export class FabMainComponent {
       tap((data: Deck) => {
         this.response = data;
         this.cardList = this.response.cards;
+        this.limiters = {
+          hero: this.response.cards.find((card: Card) => card.keywords.includes('hero'))
+        }
       })
     );
   }
