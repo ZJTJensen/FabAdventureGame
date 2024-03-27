@@ -8,10 +8,8 @@
 
 
 <div *ngIf="response.slug !== undefined">
-    <div *ngFor="let card of cardList;" >
+    <!-- <div *ngFor="let card of cardList;" >
         <div>{{card.name}}</div>   
-    </div>
+    </div> -->
     <app-card-select  [cardLimiters] = 'limiters'></app-card-select>
-    <button (click)="goToCardPicker()">pick random card</button>
-
 </div>

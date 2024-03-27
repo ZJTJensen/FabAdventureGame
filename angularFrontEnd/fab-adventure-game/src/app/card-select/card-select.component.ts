@@ -21,7 +21,8 @@ export class CardSelectComponent implements OnInit{
     card.keywords?.forEach(keyword => {
       const text = card.functionalText;
       let rarity: String = card.rarity;
-      if((card.rarity === "Majestic" || card.rarity === "Super Rare" || card.rarity === "Rare")){
+      if((card.rarity === "Majestic" || card.rarity === "Super Rare" ||
+          card.rarity === "Rare")){
         if(rarity === "Super Rare") {
           rarity = "Super";
         } 
