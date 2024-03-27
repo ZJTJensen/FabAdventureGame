@@ -13,18 +13,32 @@ export class CardSelectComponent implements OnInit{
   @Input() cardLimiters: any;
   constructor(){}
   public validCards: any = new Array();
-
+  public validSuperCards: any = new Array();
+  public validRareCards: any = new Array();
+  public validMajesticCards: any = new Array();
   ngOnInit(): void{
    cards.forEach(card => {
     card.keywords?.forEach(keyword => {
-      if(card.classes.find(cls => cls === keyword.toString())){
-        this.validCards.push(card);
-      } else if(card.classes.find(cls => cls === "Generic")) {
-        this.validCards.push(card);
+      const text = card.functionalText;
+      let rarity: String = card.rarity;
+      if((card.rarity === "Majestic" || card.rarity === "Super Rare" || card.rarity === "Rare")){
+        if(rarity === "Super Rare") {
+          rarity = "Super";
+        }
+        if(card.classes.find(cls => cls === keyword.toString())){
+          if(text?.includes("Specialization")) {
+            if(text?.includes(this.cardLimiters)) {
+              (this as any)["valid" + rarity + "Cards"].push(card);
+            }
+          }else {
+            (this as any)["valid" + rarity + "Cards"].push(card);
+          }
+        } else if(card.classes.find(cls => cls === "Generic")) {
+          (this as any)["valid" + rarity + "Cards"].push(card);
+        }
       }
       });
     });
+    this.validCards = this.validCards;
   }
-
-
 }
