@@ -24,7 +24,7 @@ export class CardSelectComponent implements OnInit{
       if((card.rarity === "Majestic" || card.rarity === "Super Rare" || card.rarity === "Rare")){
         if(rarity === "Super Rare") {
           rarity = "Super";
-        }
+        } 
         if(card.classes.find(cls => cls === keyword.toString())){
           if(text?.includes("Specialization")) {
             if(text?.includes(this.cardLimiters)) {
