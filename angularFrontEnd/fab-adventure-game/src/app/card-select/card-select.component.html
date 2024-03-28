@@ -1,4 +1,4 @@
 <div *ngFor="let card of cardsToShow" class="image_select">
-    <img src="{{card.defaultImage}}">
+    <img src="{{card.defaultImage}}" (click)="choseCard(card)">
 </div>
 <button (click)="returnHome()">Pick latter</button>

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { cards } from "fab-cards";
+import { Card, cards } from "fab-cards";
 import { FabDbService } from '../service/fabDb.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-card-select',
@@ -13,6 +14,7 @@ import { FabDbService } from '../service/fabDb.service';
 export class CardSelectComponent implements OnInit{
   @Input() cardLimiters: any;
   @Output() quit = new EventEmitter<string>();
+  @Output() selectedCard = new EventEmitter<Card>();
   private fabDbService: FabDbService;
   constructor(fabDbService: FabDbService){
     this.fabDbService = fabDbService;
@@ -91,6 +93,12 @@ export class CardSelectComponent implements OnInit{
       card = this.validMajesticCards[Math.floor(Math.random() * this.validMajesticCards.length)];
     }
     return card;
+  }
+
+  public choseCard(card: any){
+  this.fabDbService.getCardData(card.setIdentifiers[0]).subscribe((data: Card) => {
+    this.selectedCard.emit(data);
+  });
   }
 
   public returnHome(){

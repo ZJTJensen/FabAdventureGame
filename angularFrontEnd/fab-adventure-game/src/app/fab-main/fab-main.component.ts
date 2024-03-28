@@ -2,6 +2,7 @@ import { Component, NgModule } from '@angular/core';
 import { FabDbService } from '../service/fabDb.service';
 import { UserService } from '../service/user.service';
 import { Deck, Card } from '../models/fabDbDecks'; 
+import { Card as FabCard } from "fab-cards";
 import { CommonModule } from '@angular/common';
 import { Observable, mergeMap, switchMap, tap } from 'rxjs';
 import { CardSelectComponent } from '../card-select/card-select.component';
@@ -63,6 +64,10 @@ export class FabMainComponent {
 
   public quit(event: string){
     this.response = new Object() as Deck;
+    this.isDeckValid = false;
+  }
+  public cardSelected(event: FabCard){
+    this.response = new Object() as FabCard;
   }
 
   public checkValidity() {
