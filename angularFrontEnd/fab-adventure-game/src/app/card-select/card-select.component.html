@@ -1,3 +1,4 @@
-<!-- <div *ngFor="let card of validCards">
-    <img src="{{card.printings[0].image}}">
-</div> -->
+<div *ngFor="let card of cardsToShow" class="image_select">
+    <img src="{{card.defaultImage}}">
+</div>
+<button (click)="returnHome()">Pick latter</button>

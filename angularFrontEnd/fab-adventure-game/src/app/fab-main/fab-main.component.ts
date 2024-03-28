@@ -58,7 +58,7 @@ export class FabMainComponent {
     this.deckUrl = event.target.value.substring(event.target.value.lastIndexOf('/') + 1)
   }
 
-  public goToCardPicker(){
-    window.location.href = '/card-select';
+  public quit(event: string){
+    this.response = new Object() as Deck;
   }
 }

@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { cards } from "fab-cards";
+import { FabDbService } from '../service/fabDb.service';
+import { EventEmitter } from 'node:stream';
 
 @Component({
   selector: 'app-card-select',
@@ -11,35 +13,82 @@ import { cards } from "fab-cards";
 })
 export class CardSelectComponent implements OnInit{
   @Input() cardLimiters: any;
-  constructor(){}
+  @Output() quit =new EventEmitter();
+  private fabDbService: FabDbService;
+  constructor(fabDbService: FabDbService){
+    this.fabDbService = fabDbService;
+  }
   public validCards: any = new Array();
-  public validSuperCards: any = new Array();
   public validRareCards: any = new Array();
   public validMajesticCards: any = new Array();
+  public cardsToShow: any = new Array();
   ngOnInit(): void{
-   cards.forEach(card => {
-    card.keywords?.forEach(keyword => {
-      const text = card.functionalText;
-      let rarity: String = card.rarity;
-      if((card.rarity === "Majestic" || card.rarity === "Super Rare" ||
-          card.rarity === "Rare")){
-        if(rarity === "Super Rare") {
-          rarity = "Super";
-        } 
-        if(card.classes.find(cls => cls === keyword.toString())){
-          if(text?.includes("Specialization")) {
-            if(text?.includes(this.cardLimiters)) {
+    this.cresteCardList();
+    for (let i = 0; i < 3; i++) {
+      this.cardsToShow.push(this.pullCard());
+    }
+  }
+
+  public cresteCardList(){
+    cards.forEach(card => {
+      card.keywords?.forEach(keyword => {
+        const text = card.functionalText;
+        let rarity: String = card.rarity;
+        let isHeroType = false
+        let isClass = card.talents? card.talents.length > 0 : false;
+        card.talents?.forEach(talents => { 
+          if(this.cardLimiters.hero.keywords.includes(talents.toLowerCase())) {
+            isClass = true;
+          } else {
+            isClass = false;
+          }
+        });
+        card.classes.find(cls => this.cardLimiters.hero.keywords.forEach((keyword: string) => {
+          if(cls.toLowerCase() === keyword.toLowerCase()) {
+            isHeroType = true;
+          }
+        }));
+
+        if((card.rarity === "Majestic" || card.rarity === "Super Rare" ||
+            card.rarity === "Rare")){
+          if(rarity === "Super Rare") {
+            rarity = "Majestic";
+          } 
+          if(isHeroType && isClass){
+            if(text?.includes("Specialization")) {
+              let cardSpec= card.specializations;
+              if(cardSpec != undefined && this.cardLimiters.hero.name.includes(cardSpec[0])) {
+                (this as any)["valid" + rarity + "Cards"].push(card);
+              }
+            }else {
               (this as any)["valid" + rarity + "Cards"].push(card);
             }
-          }else {
+          } else if(card.classes.find(cls => cls === "Generic")) {
             (this as any)["valid" + rarity + "Cards"].push(card);
           }
-        } else if(card.classes.find(cls => cls === "Generic")) {
-          (this as any)["valid" + rarity + "Cards"].push(card);
         }
-      }
+        });
       });
-    });
-    this.validCards = this.validCards;
+  }
+
+  public pullCard() {
+    const randomNumber = Math.random(); 
+    let card;
+    do{
+      if (randomNumber < 0.9 && this.validRareCards.length > 0) {
+        card = this.validRareCards[Math.floor(Math.random() * this.validRareCards.length)];
+      } else if (this.validMajesticCards.length > 0) {
+        card = this.validMajesticCards[Math.floor(Math.random() * this.validMajesticCards.length)];
+      }
+    } while((card.types.includes("Equipment") && !card.types.includes("Action")) || card.types.includes("Hero"))
+   
+    let cardLocation = card.defaultImage.split('.');
+
+    card.defaultImage = this.fabDbService.getImageUrl(cardLocation[0]);
+    return card;
+  }
+
+  public returnHome(){
+    this.quit.emit('quit');
   }
 }
