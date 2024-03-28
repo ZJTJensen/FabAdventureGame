@@ -5,9 +5,11 @@
         <button (click)="login()">login</button>
     </div>
 </div>
+<div *ngIf="isDeckValid">
+    <h4>Deck is valid</h4>
+</div>
 
-
-<div *ngIf="response.slug !== undefined">
+<div *ngIf="response.slug !== undefined && isDeckValid">
     <!-- <div *ngFor="let card of cardList;" >
         <div>{{card.name}}</div>   
     </div> -->

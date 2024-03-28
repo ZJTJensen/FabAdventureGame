@@ -24,10 +24,12 @@ export class FabMainComponent {
   public deckUrl: string = "";
   public cardList: Array<Card> = new Array<Card>();
   public limiters: any = new Object();
+  public isDeckValid: boolean = false;
+  public userInfo: any;
 
   public login() {
-    this.getUser().pipe(
-      tap(user => console.log('User:', user)),
+     this.getUser().pipe(
+      tap(user => this.userInfo = user),
       switchMap(() => {
         return this.getDeck();
       })
@@ -35,6 +37,7 @@ export class FabMainComponent {
       () => {},
       error => console.error('Error:', error)
     );
+    this.checkValidity();
   }
   
 
@@ -61,4 +64,22 @@ export class FabMainComponent {
   public quit(event: string){
     this.response = new Object() as Deck;
   }
+
+  public checkValidity() {
+    this.userInfo.level = 1
+    let rareCardCount = 0;
+    let majesticCount = 0;
+    for (let card of this.cardList){
+      if (card.rarity === 'Rare'){
+        rareCardCount++;
+      }
+      if (card.rarity === 'Majestic' || card.rarity === 'Super Rare'){
+        majesticCount++;
+      }
+    }
+    if ((rareCardCount +  majesticCount) <= this.userInfo?.level) {
+      this.isDeckValid = true;
+    }
+  }
+
 }
