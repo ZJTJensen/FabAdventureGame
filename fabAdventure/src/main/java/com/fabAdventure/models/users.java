@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name ="USERS")
-public class users {
+public class Users {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column private Integer id;

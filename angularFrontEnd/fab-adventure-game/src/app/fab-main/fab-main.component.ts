@@ -28,8 +28,8 @@ export class FabMainComponent {
   public userInfo: any;
 
   public login() {
-     this.getUser().pipe(
-      tap(user => this.userInfo = user),
+    this.getUser().pipe(
+      tap(user => console.log('User:', user)),
       switchMap(() => {
         return this.getDeck();
       })
@@ -66,18 +66,22 @@ export class FabMainComponent {
   }
 
   public checkValidity() {
-    this.userInfo.level = 1
+    // this.userInfo.level = 1
+    let userLevel = 1;
     let rareCardCount = 0;
     let majesticCount = 0;
     for (let card of this.cardList){
-      if (card.rarity === 'Rare'){
-        rareCardCount++;
-      }
-      if (card.rarity === 'Majestic' || card.rarity === 'Super Rare'){
-        majesticCount++;
+      if(!card.keywords.includes("Hero")){
+
+        if (card.rarity === 'Rare'){
+          rareCardCount++;
+        }
+        if (card.rarity === 'Majestic' || card.rarity === 'Super Rare'){
+          majesticCount++;
+        }
       }
     }
-    if ((rareCardCount +  majesticCount) <= this.userInfo?.level) {
+    if ((rareCardCount +  majesticCount) <= userLevel) {
       this.isDeckValid = true;
     }
   }
