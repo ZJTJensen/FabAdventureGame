@@ -6,9 +6,11 @@ import { CardSelectComponent } from '../card-select/card-select.component';
 
 
 @NgModule({
-  declarations: [FabMainComponent, CardSelectComponent],
+  declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
+    CardSelectComponent,
+    FabMainComponent
   ]
 })
 export class AppModuleModule { }

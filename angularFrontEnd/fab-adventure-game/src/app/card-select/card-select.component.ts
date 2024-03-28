@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { cards } from "fab-cards";
 import { FabDbService } from '../service/fabDb.service';
-import { EventEmitter } from 'node:stream';
 
 @Component({
   selector: 'app-card-select',
@@ -13,7 +12,7 @@ import { EventEmitter } from 'node:stream';
 })
 export class CardSelectComponent implements OnInit{
   @Input() cardLimiters: any;
-  @Output() quit =new EventEmitter();
+  @Output() quit = new EventEmitter<string>();
   private fabDbService: FabDbService;
   constructor(fabDbService: FabDbService){
     this.fabDbService = fabDbService;
@@ -24,8 +23,15 @@ export class CardSelectComponent implements OnInit{
   public cardsToShow: any = new Array();
   ngOnInit(): void{
     this.cresteCardList();
-    for (let i = 0; i < 3; i++) {
-      this.cardsToShow.push(this.pullCard());
+    for (let i =0;i < 3;) {
+      let response = this.pullCard();
+      if(response.types.includes("Equipment") && !response.types.includes("Action")) {
+        console.log("Invalid card pulled")
+      } else {
+        i++;
+        this.cardsToShow.push(this.pullCard());
+      }
+      
     }
   }
 
@@ -74,14 +80,12 @@ export class CardSelectComponent implements OnInit{
   public pullCard() {
     const randomNumber = Math.random(); 
     let card;
-    do{
-      if (randomNumber < 0.9 && this.validRareCards.length > 0) {
-        card = this.validRareCards[Math.floor(Math.random() * this.validRareCards.length)];
-      } else if (this.validMajesticCards.length > 0) {
-        card = this.validMajesticCards[Math.floor(Math.random() * this.validMajesticCards.length)];
-      }
-    } while((card.types.includes("Equipment") && !card.types.includes("Action")) || card.types.includes("Hero"))
-   
+    if (randomNumber < 0.9 && this.validRareCards.length > 0) {
+      card = this.validRareCards[Math.floor(Math.random() * this.validRareCards.length)];
+    } else if (this.validMajesticCards.length > 0) {
+      card = this.validMajesticCards[Math.floor(Math.random() * this.validMajesticCards.length)];
+    }
+  
     let cardLocation = card.defaultImage.split('.');
 
     card.defaultImage = this.fabDbService.getImageUrl(cardLocation[0]);
