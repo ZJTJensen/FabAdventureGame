@@ -6,10 +6,12 @@ import { Card as FabCard } from "fab-cards";
 import { CommonModule } from '@angular/common';
 import { Observable, mergeMap, switchMap, tap } from 'rxjs';
 import { CardSelectComponent } from '../card-select/card-select.component';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 @Component({
   selector: 'app-fab-main',
   standalone: true,
-  imports: [CommonModule, CardSelectComponent],
+  imports: [CommonModule, CardSelectComponent, NgxMaskDirective, NgxMaskPipe],
+  providers: [provideNgxMask()],
   templateUrl: './fab-main.component.html',
   styleUrl: './fab-main.component.scss'
 })
@@ -27,8 +29,11 @@ export class FabMainComponent {
   public limiters: any = new Object();
   public isDeckValid: boolean = false;
   public userInfo: any;
+  public phone: any = "";
+  public loginAttempt: boolean = false;
 
   public login() {
+    this.loginAttempt = true;
     this.getUser().pipe(
       tap(user => console.log('User:', user)),
       switchMap(() => {
@@ -62,12 +67,20 @@ export class FabMainComponent {
     this.deckUrl = event.target.value.substring(event.target.value.lastIndexOf('/') + 1)
   }
 
+  public setPhone(event: any){
+    this.phone = event.target.value;
+  }
+
   public quit(event: string){
     this.response = new Object() as Deck;
     this.isDeckValid = false;
   }
   public cardSelected(event: FabCard){
     this.response = new Object() as FabCard;
+  }
+
+  public signUp(){
+    this.userService.setUserInfo(this.response.slug, this.phone);
   }
 
   public checkValidity() {

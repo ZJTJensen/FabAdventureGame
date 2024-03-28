@@ -1,6 +1,6 @@
 <div>
     <div *ngIf="response.slug === undefined"> 
-        <span>Create Account / login </span>
+        <span> login </span>
         <input type="text" (keyup)="onKey($event)" />
         <button (click)="login()">login</button>
     </div>
@@ -9,7 +9,14 @@
     <h4>Deck is valid</h4>
 </div>
 
-<div *ngIf="!isDeckValid">
+
+    <div *ngIf="!userInfo  && loginAttempt && isDeckValid">
+        Create Account
+        <input type='text' mask="(000) 000-000"  (keyup)="setPhone($event)" />
+        <button (click)="signUp()">Sign Up</button>
+    </div>
+
+<div *ngIf="!isDeckValid && loginAttempt">
     <h4>Deck is not valid</h4>
 </div>
 
