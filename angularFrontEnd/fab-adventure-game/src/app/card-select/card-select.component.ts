@@ -29,7 +29,13 @@ export class CardSelectComponent implements OnInit{
         console.log("Invalid card pulled")
       } else {
         i++;
-        this.cardsToShow.push(this.pullCard());
+        if(!response.defaultImage.includes('.png')) {
+          let cardLocation = response.defaultImage.split('.');
+          response.defaultImage = this.fabDbService.getImageUrl(cardLocation[0]);
+        }else {
+          console.log("Image already in correct format")
+        }
+        this.cardsToShow.push(response);
       }
       
     }
@@ -85,10 +91,6 @@ export class CardSelectComponent implements OnInit{
     } else if (this.validMajesticCards.length > 0) {
       card = this.validMajesticCards[Math.floor(Math.random() * this.validMajesticCards.length)];
     }
-  
-    let cardLocation = card.defaultImage.split('.');
-
-    card.defaultImage = this.fabDbService.getImageUrl(cardLocation[0]);
     return card;
   }
 
