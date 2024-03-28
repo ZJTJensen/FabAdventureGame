@@ -25,7 +25,7 @@ export class CardSelectComponent implements OnInit{
     this.cresteCardList();
     for (let i =0;i < 3;) {
       let response = this.pullCard();
-      if(response.types.includes("Equipment") && !response.types.includes("Action")) {
+      if((response.types.includes("Equipment") && !response.types.includes("Action")) || response.types.includes('Weapon')) {
         console.log("Invalid card pulled")
       } else {
         i++;
@@ -47,12 +47,10 @@ export class CardSelectComponent implements OnInit{
         const text = card.functionalText;
         let rarity: String = card.rarity;
         let isHeroType = false
-        let isClass = card.talents? card.talents.length > 0 : false;
+        let isClass = false;
         card.talents?.forEach(talents => { 
           if(this.cardLimiters.hero.keywords.includes(talents.toLowerCase())) {
             isClass = true;
-          } else {
-            isClass = false;
           }
         });
         card.classes.find(cls => this.cardLimiters.hero.keywords.forEach((keyword: string) => {
@@ -66,13 +64,14 @@ export class CardSelectComponent implements OnInit{
           if(rarity === "Super Rare") {
             rarity = "Majestic";
           } 
-          if(isHeroType && isClass){
+          if((isHeroType && !isClass) || (isHeroType || (isHeroType && isClass) || (isClass && card.classes.find(cls => cls === "Generic")))){
+            
             if(text?.includes("Specialization")) {
               let cardSpec= card.specializations;
               if(cardSpec != undefined && this.cardLimiters.hero.name.includes(cardSpec[0])) {
                 (this as any)["valid" + rarity + "Cards"].push(card);
               }
-            }else {
+            }else { 
               (this as any)["valid" + rarity + "Cards"].push(card);
             }
           } else if(card.classes.find(cls => cls === "Generic")) {
