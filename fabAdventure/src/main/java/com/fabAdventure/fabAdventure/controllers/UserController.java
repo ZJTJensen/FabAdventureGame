@@ -13,10 +13,27 @@ import com.fabAdventure.models.UsersRequest;
 
 public class UserController {
     @PostMapping("/fetch")
+	public String fetchAccount(@RequestBody UsersRequest message) {
+    	System.out.println("Connecting to backend!!");
+    	System.out.println("Message was: " + message.getUser());
+		String message2 = "Connected to backend!";
+		return message2;
+    }
+
+	@PostMapping("/create")
 	public String createAccount(@RequestBody UsersRequest message) {
     	System.out.println("Connecting to backend!!");
     	System.out.println("Message was: " + message.getUser());
 		String message2 = "Connected to backend!";
 		return message2;
     }
+
+	@PostMapping("/card")
+	public String addCard(@RequestBody UsersRequest message) {
+    	System.out.println("Connecting to backend!!");
+    	System.out.println("Message was: " + message.getUser());
+		String message2 = "Connected to backend!";
+		return message2;
+    }
+
 }

@@ -19,21 +19,16 @@ import { Card } from 'fab-cards';
       }
       return this.http.post<any>('http://localhost:8080/user/fetch', userRequest, {responseType: 'string' as 'json'})
     }
-    public setUserInfo(userKey: string, phoneNumber: number): Observable<any> {
+    public setUserInfo(userKey: string, phoneNumber: number, deck: Deck): Observable<any> {
       let userRequest = {
         user: userKey,
-        phoneNumber: phoneNumber
+        phoneNumber: phoneNumber,
+        deck: deck
       }
       return this.http.post<any>('http://localhost:8080/user/create', userRequest, {responseType: 'string' as 'json'})
     }
 
-    public setDeck(userKey: string, deck: Deck): Observable<any> {
-      let userRequest = {
-        user: userKey,
-        deck: deck
-      }
-      return this.http.post<any>('http://localhost:8080/user/setDeck', userRequest, {responseType: 'string' as 'json'})
-    }
+  
     public addCard(userKey: string, card: Card): Observable<any> {
       let userRequest = {
         user: userKey,

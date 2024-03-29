@@ -80,7 +80,7 @@ export class FabMainComponent {
   }
 
   public signUp(){
-    this.userService.setUserInfo(this.response.slug, this.phone);
+    this.userService.setUserInfo(this.response.slug, this.phone, this.response);
   }
 
   public checkValidity() {
