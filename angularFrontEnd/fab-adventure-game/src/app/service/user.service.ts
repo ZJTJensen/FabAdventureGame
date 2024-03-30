@@ -35,6 +35,13 @@ import { Card } from 'fab-cards';
       return this.http.post<any>('http://localhost:8080/user/card', userRequest, {responseType: 'string' as 'json'})
     }
 
+    public getUseresInBracked(userKey: string): Observable<any> {
+      let userRequest = {
+        user: userKey
+      }
+      return this.http.post<any>('http://localhost:8080/user/usersInBracket', userRequest, {responseType: 'string' as 'json'})
+    }
+
     public getUsers(): Observable<any> {
       return this.http.get<any>('http://localhost:8080/user/loggedInUsers')
     }

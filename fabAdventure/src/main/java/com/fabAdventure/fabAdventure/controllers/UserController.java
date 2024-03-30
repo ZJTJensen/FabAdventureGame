@@ -16,23 +16,21 @@ public class UserController {
 	private UserService userService;
     @PostMapping("/fetch")
 	public boolean fetchAccount(@RequestBody UsersRequest message) {
-    	return userService.doesUserExist(message.getUser());
+    	return userService.doesUserExist(message.getSlug());
     }
 
 	@PostMapping("/create")
-	public String createAccount(@RequestBody UsersRequest message) {
-    	System.out.println("Connecting to backend!!");
-    	System.out.println("Message was: " + message.getUser());
-		String message2 = "Connected to backend!";
-		return message2;
+	public boolean createAccount(@RequestBody UsersRequest message) {
+    	return userService.creteUser(message.getPhone(), message.getDeck());
     }
 
 	@PostMapping("/card")
-	public String addCard(@RequestBody UsersRequest message) {
-    	System.out.println("Connecting to backend!!");
-    	System.out.println("Message was: " + message.getUser());
-		String message2 = "Connected to backend!";
-		return message2;
+	public boolean addCard(@RequestBody UsersRequest message) {
+    	return userService.addCardToUserDeck(message.getCard());
+    }
+	@PostMapping("/usersInBracket")
+	public boolean getUsersInBracket(@RequestBody UsersRequest message) {
+    	return userService.getUsersInBracket(message.getSlug());
     }
 
 }
