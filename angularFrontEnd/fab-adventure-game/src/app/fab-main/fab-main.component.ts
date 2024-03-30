@@ -7,10 +7,11 @@ import { CommonModule } from '@angular/common';
 import { Observable, mergeMap, switchMap, tap } from 'rxjs';
 import { CardSelectComponent } from '../card-select/card-select.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { UserInfoComponent } from '../user-info/user-info.component';
 @Component({
   selector: 'app-fab-main',
   standalone: true,
-  imports: [CommonModule, CardSelectComponent, NgxMaskDirective, NgxMaskPipe],
+  imports: [CommonModule, CardSelectComponent, UserInfoComponent, NgxMaskDirective, NgxMaskPipe],
   providers: [provideNgxMask()],
   templateUrl: './fab-main.component.html',
   styleUrl: './fab-main.component.scss'
@@ -28,6 +29,7 @@ export class FabMainComponent {
   public cardList: Array<Card> = new Array<Card>();
   public cardSelected: FabCard = new Object() as FabCard;
   public limiters: any = new Object();
+  public users: any;
   public isDeckValid: boolean = false;
   public userInfo: any;
   public phone: any = "";

@@ -95,7 +95,7 @@ export class CardSelectComponent implements OnInit{
     return card;
   }
 
-  public choseCard(card: any){
+  public choseCard(card: Card){
   this.fabDbService.getCardData(card.setIdentifiers[0]).subscribe((data: Card) => {
     this.selectedCard.emit(data);
   });

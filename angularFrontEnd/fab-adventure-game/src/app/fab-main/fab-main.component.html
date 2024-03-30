@@ -1,6 +1,6 @@
 <div>
     <div *ngIf="response.slug === undefined && !logingIn"> 
-        <span> login </span>
+        <span> login (deck link) </span>
         <input type="text" (keyup)="onKey($event)" />
         <button (click)="login()">login</button>
     </div>
@@ -18,28 +18,12 @@
 <div *ngIf="!isDeckValid && loginAttempt">
     <h4>Deck is not valid</h4>
 </div>
-<!-- Refactor bellow if statment -->
-<div *ngIf="response.slug !== undefined && isDeckValid && userInfo">
-    <div>
-        To display user data
-    </div>
 
-    <app-card-select *ngIf="userInfo.needsToSelectNewCard" 
-        [cardLimiters] = 'limiters' (quit)="quit($event)" 
-            (selectedCard)="saveSelectedCard($event)">
-    </app-card-select>
-</div>
+<app-user-info 
+    *ngIf="response.slug !== undefined && isDeckValid && userInfo"
+        [userInfo]="userInfo" [limiters]="limiters" (quit)="quit($event)" 
+        (selectedCard)="saveSelectedCard($event)"></app-user-info>
 <div *ngIf="logingIn">
     <div class="spinner"></div>
     Checking validity of deck
-</div>
-
-<div *ngIf="userInfo">
-    Who is logged in
-    <div>
-        <div *ngFor="listOfUsersInBracket">
-        </div>
-    </div>
-    <div *ngFor="listOfLoggedInUsers">
-    </div>   
 </div>

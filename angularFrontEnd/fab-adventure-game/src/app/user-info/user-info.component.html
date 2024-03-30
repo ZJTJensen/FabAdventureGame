@@ -1,0 +1,20 @@
+<div>
+    <div>
+        To display user data
+    </div>
+
+    <app-card-select *ngIf="userInfo.needsToSelectNewCard" 
+        [cardLimiters] = 'limiters' (quit)="quitFunc($event)" 
+            (selectedCard)="saveSelectedCardFunc($event)">
+    </app-card-select>
+
+    <div *ngIf="userInfo">
+        Who is logged in
+        <div>
+            <div *ngFor="let listOfUsersInBracket">
+            </div>
+        </div>
+        <!--POST MVP DEVELOPMENT <div *ngFor="listOfLoggedInUsers">
+        </div>    -->
+    </div>
+</div>
