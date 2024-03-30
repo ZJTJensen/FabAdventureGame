@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.scss'
 })
-export class UserInfoComponent implements OnInit{
+export class UserInfoComponent implements OnInit {
   @Input() userInfo: any;
   @Input() limiters: any;
   @Output() quit = new EventEmitter<string>();
@@ -20,21 +20,22 @@ export class UserInfoComponent implements OnInit{
 
   public deckService: FabDbService;
   public userService: UserService;
-  public lisOfUsersInBracket: Array<any> = [];
-  constructor(deckService: FabDbService, userService: UserService){
+  public listOfUsersInBracket: Array<any> = [];
+  constructor(deckService: FabDbService, userService: UserService) {
     this.deckService = deckService,
-    this.userService = userService;
+    this.userService = userService
   }
   public ngOnInit(): void {
-      this.getUsersInBracket(null);
+    this.getUsersInBracket(this.userInfo.user);
   }
-  public quitFunc(event: string){
+  public quitFunc(event: string) {
     this.quit.emit(event);
   }
-  public saveSelectedCardFunc(event: Card){
+  public saveSelectedCardFunc(event: Card) {
     this.selectedCard.emit(event)
   }
-  public getUsersInBracket(users: any){
+  public getUsersInBracket(users: any) {
+    this.listOfUsersInBracket = [0, 2]
     return true;
   }
 
