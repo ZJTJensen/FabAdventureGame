@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { FabDbService } from '../service/fabDb.service';
 import { UserService } from '../service/user.service';
 import { Deck, Card } from '../models/fabDbDecks'; 
@@ -26,6 +26,7 @@ export class FabMainComponent {
   public response: any = new Object() as Deck;
   public deckUrl: string = "";
   public cardList: Array<Card> = new Array<Card>();
+  public cardSelected: FabCard = new Object() as FabCard;
   public limiters: any = new Object();
   public isDeckValid: boolean = false;
   public userInfo: any;
@@ -36,7 +37,7 @@ export class FabMainComponent {
   public login() {
     this.logingIn = true;
     this.getUser().pipe(
-      tap(user => console.log('User:', user)),
+      tap(user =>this.userInfo = user),
       switchMap(() => {
         return this.getDeck();
       })
@@ -82,8 +83,8 @@ export class FabMainComponent {
     this.response = new Object() as Deck;
     this.isDeckValid = false;
   }
-  public cardSelected(event: FabCard){
-    this.response = new Object() as FabCard;
+  public saveSelectedCard(event: FabCard){
+    this.cardSelected = event;
   }
 
   public signUp(){

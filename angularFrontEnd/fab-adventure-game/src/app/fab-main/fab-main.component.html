@@ -8,23 +8,25 @@
 <div *ngIf="isDeckValid">
     <h4>Deck is valid</h4>
 </div>
-<div *ngIf="logingIn">
-    <div class="spinner"></div>
-    Checking validity of deck
-</div>
-
 
 <div *ngIf="!userInfo  && loginAttempt && isDeckValid">
     Create Account (phone Number)
-
-    <input type='text' mask="(000) 000-000"  (keyup)="setPhone($event)"/>
+    <input type='text' mask="(000) 000-0000"  (keyup)="setPhone($event)"/>
     <button (click)="signUp()">Sign Up</button>
 </div>
 
 <div *ngIf="!isDeckValid && loginAttempt">
     <h4>Deck is not valid</h4>
 </div>
-
+<!-- Refactor bellow if statment -->
 <div *ngIf="response.slug !== undefined && isDeckValid && userInfo">
-    <app-card-select  [cardLimiters] = 'limiters' (quit)="quit($event)" (selectedCard)="cardSelected($event)"></app-card-select>
+    <div>
+        To display user data
+    </div>
+
+    <app-card-select *ngIf="userInfo.needsToSelectNewCard" [cardLimiters] = 'limiters' (quit)="quit($event)" (selectedCard)="saveSelectedCard($event)"></app-card-select>
+</div>
+<div *ngIf="logingIn">
+    <div class="spinner"></div>
+    Checking validity of deck
 </div>
