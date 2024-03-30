@@ -1,5 +1,4 @@
 package com.fabAdventure.models;
-import java.util.ArrayList;
 import java.util.Date;
 
 import jakarta.persistence.Column;
