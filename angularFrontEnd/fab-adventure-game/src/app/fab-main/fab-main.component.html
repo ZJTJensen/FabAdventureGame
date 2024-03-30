@@ -1,5 +1,5 @@
 <div>
-    <div *ngIf="response.slug === undefined"> 
+    <div *ngIf="response.slug === undefined && !logingIn"> 
         <span> login </span>
         <input type="text" (keyup)="onKey($event)" />
         <button (click)="login()">login</button>
@@ -8,21 +8,23 @@
 <div *ngIf="isDeckValid">
     <h4>Deck is valid</h4>
 </div>
+<div *ngIf="logingIn">
+    <div class="spinner"></div>
+    Checking validity of deck
+</div>
 
 
-    <div *ngIf="!userInfo  && loginAttempt && isDeckValid">
-        Create Account
-        <input type='text' mask="(000) 000-000"  (keyup)="setPhone($event)" />
-        <button (click)="signUp()">Sign Up</button>
-    </div>
+<div *ngIf="!userInfo  && loginAttempt && isDeckValid">
+    Create Account (phone Number)
+
+    <input type='text' mask="(000) 000-000"  (keyup)="setPhone($event)"/>
+    <button (click)="signUp()">Sign Up</button>
+</div>
 
 <div *ngIf="!isDeckValid && loginAttempt">
     <h4>Deck is not valid</h4>
 </div>
 
-<div *ngIf="response.slug !== undefined && isDeckValid">
-    <!-- <div *ngFor="let card of cardList;" >
-        <div>{{card.name}}</div>   
-    </div> -->
+<div *ngIf="response.slug !== undefined && isDeckValid && userInfo">
     <app-card-select  [cardLimiters] = 'limiters' (quit)="quit($event)" (selectedCard)="cardSelected($event)"></app-card-select>
 </div>

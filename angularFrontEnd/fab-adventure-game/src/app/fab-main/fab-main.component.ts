@@ -31,17 +31,24 @@ export class FabMainComponent {
   public userInfo: any;
   public phone: any = "";
   public loginAttempt: boolean = false;
+  public logingIn: boolean = false;
 
   public login() {
-    this.loginAttempt = true;
+    this.logingIn = true;
     this.getUser().pipe(
       tap(user => console.log('User:', user)),
       switchMap(() => {
         return this.getDeck();
       })
     ).subscribe(
-      () => {},
-      error => console.error('Error:', error)
+      () => {
+        this.loginAttempt = true;
+        this.logingIn = false;
+      },
+      error => {
+        this.loginAttempt = true;
+        this.logingIn = false;
+      }
     );
   }
   
