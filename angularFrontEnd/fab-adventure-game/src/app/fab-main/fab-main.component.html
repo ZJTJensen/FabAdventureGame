@@ -24,9 +24,22 @@
         To display user data
     </div>
 
-    <app-card-select *ngIf="userInfo.needsToSelectNewCard" [cardLimiters] = 'limiters' (quit)="quit($event)" (selectedCard)="saveSelectedCard($event)"></app-card-select>
+    <app-card-select *ngIf="userInfo.needsToSelectNewCard" 
+        [cardLimiters] = 'limiters' (quit)="quit($event)" 
+            (selectedCard)="saveSelectedCard($event)">
+    </app-card-select>
 </div>
 <div *ngIf="logingIn">
     <div class="spinner"></div>
     Checking validity of deck
+</div>
+
+<div *ngIf="userInfo">
+    Who is logged in
+    <div>
+        <div *ngFor="listOfUsersInBracket">
+        </div>
+    </div>
+    <div *ngFor="listOfLoggedInUsers">
+    </div>   
 </div>
