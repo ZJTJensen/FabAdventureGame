@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fabAdventure.fabAdventure.service.UserService;
 import com.fabAdventure.models.UsersRequest;
 
 @RestController
@@ -12,12 +13,10 @@ import com.fabAdventure.models.UsersRequest;
 @RequestMapping("/user")
 
 public class UserController {
+	private UserService userService;
     @PostMapping("/fetch")
-	public String fetchAccount(@RequestBody UsersRequest message) {
-    	System.out.println("Connecting to backend!!");
-    	System.out.println("Message was: " + message.getUser());
-		String message2 = "Connected to backend!";
-		return message2;
+	public boolean fetchAccount(@RequestBody UsersRequest message) {
+    	return userService.doesUserExist(message.getUser());
     }
 
 	@PostMapping("/create")

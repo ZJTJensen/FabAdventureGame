@@ -43,7 +43,6 @@ export class FabMainComponent {
       () => {},
       error => console.error('Error:', error)
     );
-    this.checkValidity();
   }
   
 
@@ -59,6 +58,7 @@ export class FabMainComponent {
         this.limiters = {
           hero: this.response.cards.find((card: Card) => card.keywords.includes('hero'))
         }
+        this.checkValidity();
       })
     );
   }
@@ -91,10 +91,9 @@ export class FabMainComponent {
     for (let card of this.cardList){
       if(!card.keywords.includes("Hero")){
 
-        if (card.rarity === 'Rare'){
+        if (card.rarity === 'R'){
           rareCardCount++;
-        }
-        if (card.rarity === 'Majestic' || card.rarity === 'Super Rare'){
+        } else if (card.rarity === 'M' || card.rarity === 'S'){
           majesticCount++;
         }
       }
