@@ -1,4 +1,5 @@
 package com.fabAdventure.fabAdventure.controllers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,10 +14,17 @@ import com.fabAdventure.models.UsersRequest;
 @RequestMapping("/user")
 
 public class UserController {
+	@Autowired
 	private UserService userService;
     @PostMapping("/fetch")
 	public boolean fetchAccount(@RequestBody UsersRequest message) {
-    	return userService.doesUserExist(message.getSlug());
+		try {
+			return this.userService.doesUserExist(message.getSlug());
+		} catch (Exception e) {
+			System.out.println("error e" + e.getMessage().toString());
+			return false;
+		}
+    	
     }
 
 	@PostMapping("/create")
@@ -28,6 +36,7 @@ public class UserController {
 	public boolean addCard(@RequestBody UsersRequest message) {
     	return userService.addCardToUserDeck(message.getCard());
     }
+
 	@PostMapping("/usersInBracket")
 	public boolean getUsersInBracket(@RequestBody UsersRequest message) {
     	return userService.getUsersInBracket(message.getSlug());

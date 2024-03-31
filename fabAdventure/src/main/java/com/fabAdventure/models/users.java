@@ -13,21 +13,17 @@ import jakarta.persistence.Table;
 public class Users {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column private Integer id;
-    @Column private String user;
+    @Column private String slug;
     @Column private String phone;
 
 
-    @Column private Date createdDateTime;
-    @Column private Date updatedDateTime;
 
 
-
-    public Integer getId() {
-		return id;
+    public String getSlug() {
+		return slug;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setSlug(String slug) {
+		this.slug = slug;
 	}
 
     public String getCreatedPhone() {
@@ -35,26 +31,6 @@ public class Users {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-    public String getUser() {
-		return user;
-	}
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-    public Date getCreatedDateTime() {
-		return createdDateTime;
-	}
-	public void setCreatedDateTime(Date createdDateTime) {
-		this.createdDateTime = createdDateTime;
-	}
-	public Date getUpdatedDateTime() {
-		return updatedDateTime;
-	}
-	public void setUpdatedDateTime(Date updatedDateTime) {
-		this.updatedDateTime = updatedDateTime;
 	}
   
 }

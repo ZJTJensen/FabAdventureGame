@@ -28,5 +28,5 @@ export interface Deck {
     totalVotes: number;
     myVote: number;
     cards: Card[];
-    sideboard: any[];
+    sideboard: Card[];
 }
