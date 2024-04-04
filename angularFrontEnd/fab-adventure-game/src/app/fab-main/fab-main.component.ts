@@ -39,7 +39,10 @@ export class FabMainComponent {
   public login() {
     this.logingIn = true;
     this.getUser().pipe(
-      tap(user =>this.userInfo = user),
+      tap(user => {
+        this.userInfo = user
+        this.isDeckValid = user.slug !== '';
+      }),
       switchMap(() => {
         return this.getDeck();
       })
@@ -56,7 +59,7 @@ export class FabMainComponent {
   }
   
 
-  public getUser(): Observable<string>{
+  public getUser(): Observable<any>{
     return this.userService.getUserInfo(this.deckUrl);
   }
 

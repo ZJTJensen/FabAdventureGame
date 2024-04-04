@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fabAdventure.fabAdventure.service.UserService;
+import com.fabAdventure.models.Users;
 import com.fabAdventure.models.UsersRequest;
 
 @RestController
@@ -17,12 +18,12 @@ public class UserController {
 	@Autowired
 	private UserService userService;
     @PostMapping("/fetch")
-	public boolean fetchAccount(@RequestBody UsersRequest message) {
+	public Users fetchAccount(@RequestBody UsersRequest message) {
 		try {
 			return this.userService.doesUserExist(message.getSlug());
 		} catch (Exception e) {
 			System.out.println("error e" + e.getMessage().toString());
-			return false;
+			return new Users();
 		}
     	
     }

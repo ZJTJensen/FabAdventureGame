@@ -1,6 +1,4 @@
 package com.fabAdventure.models;
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +13,9 @@ public class Users {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column private String slug;
     @Column private String phone;
-
+	@Column private String userName;
+	@Column private int userLevel;
+	// @Column private Decks deck;
 
 
 
@@ -31,6 +31,22 @@ public class Users {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getUserName() {
+		return this.userName;
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public int getUserLevel() {
+		return this.userLevel;
+	}
+	
+	public void setUserLevel(int userLevel) {
+		this.userLevel = userLevel;
 	}
   
 }

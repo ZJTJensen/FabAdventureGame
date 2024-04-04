@@ -10,25 +10,32 @@ import org.springframework.stereotype.Service;
 
 import com.fabAdventure.models.Cards;
 import com.fabAdventure.models.Decks;
+import com.fabAdventure.models.Users;
 
 @Service
 public class UserService {
 
-    public boolean doesUserExist(String slug) throws SQLException, ClassNotFoundException{
+    private String username = "root";
+    private String password = "root";
+    private String url = "jdbc:mysql://localhost:3306/";
+
+    public Users doesUserExist(String slug) throws SQLException, ClassNotFoundException{
+        Users user = new Users();
         Class.forName("com.mysql.cj.jdbc.Driver");
-        String url = "jdbc:mysql://localhost:3306/USERS";
-        String username = "root";
-        String password = "root";
-        Connection connection = DriverManager.getConnection(url, username, password);
+        Connection connection = DriverManager.getConnection(this.url + "USERS", this.username, this.password);
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS WHERE slug = '" + slug + "'");
+        user.setSlug(slug);
+        user.setPhone(resultSet.getString("phoneNumber"));
+        user.setUserLevel(resultSet.getInt("userLevel"));
+        user.setUserName(resultSet.getString("userName"));
         while(resultSet.next()){
-            return true;
+            return user;
         }
         connection.close();
         statement.close();
         resultSet.close();
-        return false;
+        return user;
     }
     public boolean creteUser(String phone, Decks deck){
         return true;

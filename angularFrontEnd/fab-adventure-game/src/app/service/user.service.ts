@@ -17,7 +17,7 @@ import { Card } from 'fab-cards';
       let userRequest = {
         slug: userKey
       }
-      return this.http.post<any>('http://localhost:8080/user/fetch', userRequest, {responseType: 'boolean' as 'json'})
+      return this.http.post<any>('http://localhost:8080/user/fetch', userRequest)
     }
     public setUserInfo(userKey: string, phoneNumber: number, deck: Deck): Observable<any> {
       let userRequest = {
