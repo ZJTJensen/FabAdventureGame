@@ -40,11 +40,15 @@ export class FabMainComponent {
     this.logingIn = true;
     this.getUser().pipe(
       tap(user => {
-        this.userInfo = user
-        this.isDeckValid = user.slug !== '';
+        this.userInfo = user;
+        this.isDeckValid = user.slug !== null;
       }),
       switchMap(() => {
-        return this.getDeck();
+        if(this.isDeckValid) {
+          return this.getDeck();
+        }
+        this.logingIn = false;
+        return new Observable();
       })
     ).subscribe(
       () => {

@@ -22,15 +22,14 @@ public class UserService {
     public Users doesUserExist(String slug) throws SQLException, ClassNotFoundException{
         Users user = new Users();
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(this.url + "USERS", this.username, this.password);
+        Connection connection = DriverManager.getConnection(this.url + "fabOdyssey", this.username, this.password);
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS WHERE slug = '" + slug + "'");
-        user.setSlug(slug);
-        user.setPhone(resultSet.getString("phoneNumber"));
-        user.setUserLevel(resultSet.getInt("userLevel"));
-        user.setUserName(resultSet.getString("userName"));
         while(resultSet.next()){
-            return user;
+            user.setSlug(slug);
+            user.setPhone(resultSet.getString("phoneNumber"));
+            user.setUserLevel(resultSet.getInt("userLevel"));
+            user.setUserName(resultSet.getString("userName"));
         }
         connection.close();
         statement.close();
