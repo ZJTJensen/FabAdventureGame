@@ -1,38 +1,45 @@
 package com.fabAdventure.fabAdventure.service;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
+import javax.sql.DataSource;
 
 import org.springframework.stereotype.Service;
 
 import com.fabAdventure.models.Cards;
 import com.fabAdventure.models.Decks;
 import com.fabAdventure.models.Users;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 @Service
 public class UserService {
 
-    private String username = "root";
-    private String password = "root";
-    private String url = "jdbc:mysql://localhost:3306/";
+    private static final String INSTANCE_HOST = System.getenv("INSTANCE_HOST");
+    private static final String DB_USER = System.getenv("DB_USER");
+    private static final String DB_PASS = System.getenv("DB_PASS");
+
+    
+  public static DataSource createConnectionPool() {
+    HikariConfig config = new HikariConfig();
+    config.setJdbcUrl("jdbc:postgresql://" + INSTANCE_HOST + "/");
+    config.setUsername(DB_USER); 
+    config.setPassword(DB_PASS);
+    return new HikariDataSource(config);
+  }
+  
 
     public Users doesUserExist(String slug) throws SQLException, ClassNotFoundException{
         Users user = new Users();
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(this.url + "fabOdyssey", this.username, this.password);
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS WHERE slug = '" + slug + "'");
+        DataSource dataSource = createConnectionPool();
+        ResultSet resultSet = dataSource.getConnection().prepareStatement("select * from users where slug = '" + slug + "'").executeQuery();
         while(resultSet.next()){
             user.setSlug(slug);
             user.setPhone(resultSet.getString("phoneNumber"));
             user.setUserLevel(resultSet.getInt("userLevel"));
             user.setUserName(resultSet.getString("userName"));
         }
-        connection.close();
-        statement.close();
         resultSet.close();
         return user;
     }

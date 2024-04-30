@@ -6,16 +6,17 @@ CREATE DATABASE fabOdyssey;
 
  USE fabOdyssey
 
+
+
 CREATE TABLE Users (slug VARCHAR(20), phoneNumber VARCHAR(10), userName VARCHAR(20), userLevel VARCHAR(20));
 
-CREATE TABLE Decks (
-    slug VARCHAR(255),
+CREATE TABLE Decks (slug VARCHAR(255),
     name VARCHAR(255),
     format VARCHAR(255),
     notes TEXT,
     visibility VARCHAR(255),
     cardBack INT,
-    createdAt DATETIME,
+    createdAt timestamp,
     totalVotes INT,
     myVote INT
 );
@@ -30,7 +31,7 @@ CREATE TABLE Cards (
     comments TEXT,
     image VARCHAR(255),
     total INT,
-    isSideboard TINYINT(1)
+    isSideboard boolean
 );
 
 CREATE TABLE Stats (
