@@ -8,7 +8,7 @@ import { Observable, mergeMap, switchMap, tap } from 'rxjs';
 import { CardSelectComponent } from '../card-select/card-select.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { UserInfoComponent } from '../user-info/user-info.component';
-import e from 'express';
+
 @Component({
   selector: 'app-fab-main',
   standalone: true,
@@ -105,6 +105,7 @@ export class FabMainComponent {
   }
   public saveSelectedCard(event: FabCard){
     this.cardSelected = event;
+    this.userService.addCard(this.response.slug, this.cardSelected);
   }
 
   public signUp(){

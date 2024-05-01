@@ -2,6 +2,7 @@ package com.fabAdventure.fabAdventure.service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -62,11 +63,21 @@ public class UserService {
     
     public void addCardToUserDeck( String slug, Cards card){
         try {
+            Optional<String> sku = card.getPrintings().stream()
+            .filter(printing -> "Regular".equals(printing.getFinish()))
+            .map(printing -> printing.getSku().getSku())
+            .findFirst();
+            if (!sku.isPresent()) {
+                sku = card.getPrintings().stream()
+                    .map(printing -> printing.getSku().getSku())
+                    .findFirst();
+            }
             DataSource dataSource = createConnectionPool();
             dataSource.getConnection().prepareStatement(
                 "insert into cards(slug, identifier)"+
-                " values ('" + slug + "','" + card.getIdentifier() + "')"
+                " values ('" + slug + "','" + sku + "')"
             ).executeQuery().close();
+           
         } catch (SQLException e) {
             e.printStackTrace();
         }

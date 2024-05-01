@@ -17,6 +17,7 @@ public class Cards {
     @Column private String text;
     @ElementCollection
     private ArrayList<String> keywords;
+    @ElementCollection private ArrayList<Printings> printings;
     @Column private String flavour;
     @Column private String comments;
     @Column private String image;
@@ -67,6 +68,14 @@ public class Cards {
 
     public void setKeywords(ArrayList<String> keywords) {
         this.keywords = keywords;
+    }
+
+    public ArrayList<Printings> getPrintings() {
+        return printings;
+    }
+
+    public void setPrintings(ArrayList<Printings> printings) {
+        this.printings = printings;
     }
 
     public String getFlavour() {
