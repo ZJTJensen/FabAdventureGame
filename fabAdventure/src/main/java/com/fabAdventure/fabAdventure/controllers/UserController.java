@@ -38,8 +38,8 @@ public class UserController {
     }
 
 	@PostMapping("/card")
-	public boolean addCard(@RequestBody UsersRequest message) {
-    	return userService.addCardToUserDeck(message.getCard());
+	public void addCard(@RequestBody UsersRequest message) {
+    	this.userService.addCardToUserDeck(message.getDeck().getSlug(), message.getCard());
     }
 
 	@PostMapping("/usersInBracket")

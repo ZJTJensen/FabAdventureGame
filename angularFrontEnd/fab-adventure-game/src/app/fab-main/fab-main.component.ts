@@ -37,6 +37,7 @@ export class FabMainComponent {
   public loginAttempt: boolean = false;
   public logingIn: boolean = false;
   public loginValue: string = "";
+  public userName: string = "";
 
   public login() {
     this.logingIn = true;
@@ -89,6 +90,10 @@ export class FabMainComponent {
     }
   }
 
+  public setUserName(event: any){
+    this.userName = event.target.value;
+  }
+
   public setPhone(event: any){
     let phoneToCheck = event.target.value.replace(/\D/g, '');
     this.phone = phoneToCheck.length > 9 ? phoneToCheck : "";
@@ -107,8 +112,7 @@ export class FabMainComponent {
   }
 
   public checkValidity() {
-    // this.userInfo.level = 1
-    let userLevel = 1;
+    let userLevel = this.userInfo.level;
     let rareCardCount = 0;
     let majesticCount = 0;
     for (let card of this.cardList){

@@ -6,9 +6,16 @@
             <button (click)="login()" [disabled]="!loginValue">login</button>
         </div>
         <div *ngIf="isDeckValid">
-            Create Account (phone Number)
-            <input type='text' mask="(000) 000-0000"  (keyup)="setPhone($event)"/>
-            <button (click)="signUp()" [disabled]="!loginValue || !phone">Sign Up</button>
+            Create Account:
+            <div>
+                Username
+                <input type='text' (keyup)="setUserName($event)"/>
+            </div>
+            <div>
+                Phone Number
+                <input type='text' mask="(000) 000-0000"  (keyup)="setPhone($event)"/>
+                <button (click)="signUp()" [disabled]="!loginValue || !phone || !userName">Sign Up</button>
+            </div>
         </div>
     </div>
    

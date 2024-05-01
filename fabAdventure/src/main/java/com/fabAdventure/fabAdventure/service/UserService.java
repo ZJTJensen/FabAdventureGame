@@ -33,13 +33,16 @@ public class UserService {
     public Users doesUserExist(String slug) throws SQLException, ClassNotFoundException{
         Users user = new Users();
         DataSource dataSource = createConnectionPool();
-        ResultSet resultSet = dataSource.getConnection().prepareStatement("select * from users where slug = '" + slug + "'").executeQuery();
+        ResultSet resultSet = dataSource.getConnection().prepareStatement(
+            "select * from users where slug = '" 
+            + slug + "'").executeQuery();
         while(resultSet.next()){
             user.setSlug(slug);
             user.setPhone(resultSet.getString("phoneNumber"));
             user.setUserLevel(resultSet.getInt("userLevel"));
             user.setUserName(resultSet.getString("userName"));
         }
+        dataSource.getConnection().close();
         resultSet.close();
         return user;
     }
@@ -47,17 +50,26 @@ public class UserService {
         try {
             DataSource dataSource = createConnectionPool();
             dataSource.getConnection().prepareStatement(
-                "insert into users values ('"
+                "insert into users(slug, phoneNumber, userName, userLevel)"
+                +" values ('"
                 + deck.getSlug() + "','" + phone 
                 + "', '" + userName + "', '1')"
-            ).executeQuery();
+            ).executeQuery().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     
-    public boolean addCardToUserDeck(Cards card){
-        return true;
+    public void addCardToUserDeck( String slug, Cards card){
+        try {
+            DataSource dataSource = createConnectionPool();
+            dataSource.getConnection().prepareStatement(
+                "insert into cards(slug, identifier)"+
+                " values ('" + slug + "','" + card.getIdentifier() + "')"
+            ).executeQuery().close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
     public boolean getUsersInBracket(String slug){
