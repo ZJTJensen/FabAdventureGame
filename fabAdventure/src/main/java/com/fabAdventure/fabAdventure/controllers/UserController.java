@@ -28,9 +28,13 @@ public class UserController {
     	
     }
 
-	@PostMapping("/create")
-	public boolean createAccount(@RequestBody UsersRequest message) {
-    	return userService.creteUser(message.getPhone(), message.getDeck());
+	@PostMapping("/user/create")
+	public void createAccount(@RequestBody UsersRequest message) {
+		try {
+			this.userService.creteUser(message.getPhone(), message.getDeck(), message.getUserName());
+		} catch (Exception e) {
+			System.out.println("error e" + e.getMessage().toString());
+		}
     }
 
 	@PostMapping("/card")

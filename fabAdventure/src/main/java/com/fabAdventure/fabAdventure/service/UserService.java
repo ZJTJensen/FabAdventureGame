@@ -43,9 +43,19 @@ public class UserService {
         resultSet.close();
         return user;
     }
-    public boolean creteUser(String phone, Decks deck){
-        return true;
+    public void creteUser(String phone, Decks deck, String userName){
+        try {
+            DataSource dataSource = createConnectionPool();
+            dataSource.getConnection().prepareStatement(
+                "insert into users values ('"
+                + deck.getSlug() + "','" + phone 
+                + "', '" + userName + "', '1')"
+            ).executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+    
     public boolean addCardToUserDeck(Cards card){
         return true;
 
