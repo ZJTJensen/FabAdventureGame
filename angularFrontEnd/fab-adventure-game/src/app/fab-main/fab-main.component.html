@@ -1,14 +1,17 @@
 <div>
-    <div *ngIf="response.slug === undefined && !logingIn"> 
-        <span> login (deck link) </span>
-        <input type="text" (keyup)="onKey($event)" />
-        <button (click)="login()">login</button>
+    <div *ngIf="!userInfo && !logingIn">
+        <div> 
+            <span> login (deck link) </span>
+            <input type="text" value="https://fabdb.net/decks/build/" (keyup)="onKey($event)" />
+            <button (click)="login()" [disabled]="!loginValue">login</button>
+        </div>
+        <div *ngIf="isDeckValid">
+            Create Account (phone Number)
+            <input type='text' mask="(000) 000-0000"  (keyup)="setPhone($event)"/>
+            <button (click)="signUp()" [disabled]="!loginValue || !phone">Sign Up</button>
+        </div>
     </div>
-    <div *ngIf="!userInfo  && loginAttempt && isDeckValid">
-        Create Account (phone Number)
-        <input type='text' mask="(000) 000-0000"  (keyup)="setPhone($event)"/>
-        <button (click)="signUp()">Sign Up</button>
-    </div>
+   
     <div *ngIf="logingIn">
         <div class="spinner"></div>
         Checking validity of deck

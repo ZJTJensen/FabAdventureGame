@@ -8,6 +8,7 @@ import { Observable, mergeMap, switchMap, tap } from 'rxjs';
 import { CardSelectComponent } from '../card-select/card-select.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { UserInfoComponent } from '../user-info/user-info.component';
+import e from 'express';
 @Component({
   selector: 'app-fab-main',
   standalone: true,
@@ -35,20 +36,17 @@ export class FabMainComponent {
   public phone: any = "";
   public loginAttempt: boolean = false;
   public logingIn: boolean = false;
+  public loginValue: string = "";
 
   public login() {
     this.logingIn = true;
     this.getUser().pipe(
       tap(user => {
-        this.userInfo = user;
-        this.isDeckValid = user.slug !== null;
+        this.userInfo = user.slug ? user : undefined;
       }),
       switchMap(() => {
-        if(this.isDeckValid) {
-          return this.getDeck();
-        }
         this.logingIn = false;
-        return new Observable();
+        return this.getDeck();
       })
     ).subscribe(
       () => {
@@ -81,11 +79,19 @@ export class FabMainComponent {
   }
   
   public onKey(event: any){
-    this.deckUrl = event.target.value.substring(event.target.value.lastIndexOf('/') + 1)
+    const url = (event.target as HTMLInputElement).value;
+    if (url.includes('fabdb.net/decks/build/') && url[url.length - 1] !== '/') {
+      this.loginValue = url;
+      this.deckUrl = url.substring(url.lastIndexOf('/') + 1);
+    } else {
+      this.loginValue = "";
+      this.deckUrl = "";
+    }
   }
 
   public setPhone(event: any){
-    this.phone = event.target.value;
+    let phoneToCheck = event.target.value.replace(/\D/g, '');
+    this.phone = phoneToCheck.length > 9 ? phoneToCheck : "";
   }
 
   public quit(event: string){
