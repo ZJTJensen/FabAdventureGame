@@ -113,11 +113,11 @@ export class FabMainComponent {
   }
 
   public checkValidity() {
-    let userLevel = this.userInfo.level;
+    let userLevel = this.userInfo ? this.userInfo.level : 0;
     let rareCardCount = 0;
     let majesticCount = 0;
     for (let card of this.cardList){
-      if(!card.keywords.includes("Hero")){
+      if(!card.keywords.includes("hero")){
 
         if (card.rarity === 'R'){
           rareCardCount++;

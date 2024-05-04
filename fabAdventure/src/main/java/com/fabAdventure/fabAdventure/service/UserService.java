@@ -1,5 +1,6 @@
 package com.fabAdventure.fabAdventure.service;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -20,36 +21,43 @@ public class UserService {
     private static final String INSTANCE_HOST = System.getenv("INSTANCE_HOST");
     private static final String DB_USER = System.getenv("DB_USER");
     private static final String DB_PASS = System.getenv("DB_PASS");
+    private HikariDataSource dataSource;
+
 
     
-  public static DataSource createConnectionPool() {
+  public UserService() {
     HikariConfig config = new HikariConfig();
     config.setJdbcUrl("jdbc:postgresql://" + INSTANCE_HOST + "/");
     config.setUsername(DB_USER); 
     config.setPassword(DB_PASS);
-    return new HikariDataSource(config);
-  }
+    config.setMaximumPoolSize(5);
+    config.setMinimumIdle(5);
+    config.setConnectionTimeout(10000); // 10 seconds
+    config.setIdleTimeout(600000); // 10 minutes
+    config.setMaxLifetime(1800000);
+    this.dataSource = new HikariDataSource(config);
+}
   
 
-    public Users doesUserExist(String slug) throws SQLException, ClassNotFoundException{
+    public Users doesUserExist(String slug) throws SQLException, ClassNotFoundException {
         Users user = new Users();
-        DataSource dataSource = createConnectionPool();
-        ResultSet resultSet = dataSource.getConnection().prepareStatement(
-            "select * from users where slug = '" 
-            + slug + "'").executeQuery();
-        while(resultSet.next()){
-            user.setSlug(slug);
-            user.setPhone(resultSet.getString("phoneNumber"));
-            user.setUserLevel(resultSet.getInt("userLevel"));
-            user.setUserName(resultSet.getString("userName"));
+        try (java.sql.Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+            "select * from users where slug = ?")){
+            preparedStatement.setString(1, slug);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    user.setSlug(slug);
+                    user.setPhone(resultSet.getString("phoneNumber"));
+                    user.setUserLevel(resultSet.getInt("userLevel"));
+                    user.setUserName(resultSet.getString("userName"));
+                }
+            }
         }
-        dataSource.getConnection().close();
-        resultSet.close();
         return user;
     }
     public void creteUser(String phone, Decks deck, String userName){
         try {
-            DataSource dataSource = createConnectionPool();
             dataSource.getConnection().prepareStatement(
                 "insert into users(slug, phoneNumber, userName, userLevel)"
                 +" values ('"
@@ -72,7 +80,6 @@ public class UserService {
                     .map(printing -> printing.getSku().getSku())
                     .findFirst();
             }
-            DataSource dataSource = createConnectionPool();
             dataSource.getConnection().prepareStatement(
                 "insert into cards(slug, identifier)"+
                 " values ('" + slug + "','" + sku + "')"
