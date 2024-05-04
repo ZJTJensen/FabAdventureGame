@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import javax.sql.DataSource;
-
 import org.springframework.stereotype.Service;
 
 import com.fabAdventure.models.Cards;
@@ -68,7 +66,18 @@ public class UserService {
             e.printStackTrace();
         }
     }
-    
+    public void updateUserLevel(String slug, Integer newLevel) {
+        try (java.sql.Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                 "UPDATE users SET userLevel = ? WHERE slug = ?")) {
+            preparedStatement.setInt(1, newLevel);
+            preparedStatement.setString(2, slug);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addCardToUserDeck( String slug, Cards card){
         try {
             Optional<String> sku = card.getPrintings().stream()

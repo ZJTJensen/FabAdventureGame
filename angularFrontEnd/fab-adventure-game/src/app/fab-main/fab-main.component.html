@@ -8,11 +8,11 @@
         <div *ngIf="isDeckValid">
             Create Account:
             <div>
-                Username
+                Discord Username:
                 <input type='text' (keyup)="setUserName($event)"/>
             </div>
             <div>
-                Phone Number
+                Phone Number:
                 <input type='text' mask="(000) 000-0000"  (keyup)="setPhone($event)"/>
                 <button (click)="signUp()" [disabled]="!loginValue || !phone || !userName">Sign Up</button>
             </div>

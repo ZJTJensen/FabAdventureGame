@@ -10,6 +10,7 @@ public class UsersRequest {
 	@Column private String phone; 
 	@Column private Decks deck; 
     @Column private String userName; 
+    @Column private Integer userLevel; 
 
     public String getSlug() {
 		return slug;
@@ -46,6 +47,13 @@ public class UsersRequest {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+    public Integer getUserLevel() {
+        return this.userLevel;
+    }
+
+    public void setUserLevel(Integer userLevel) {
+        this.userLevel = userLevel;
     }
 
 }

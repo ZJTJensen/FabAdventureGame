@@ -28,6 +28,15 @@ public class UserController {
     	
     }
 
+	@PostMapping("/user/addLevel")
+	public void addLevel(@RequestBody UsersRequest message) {
+		try {
+			this.userService.updateUserLevel(message.getSlug(), message.getUserLevel());
+		} catch (Exception e) {
+			System.out.println("error e" + e.getMessage().toString());
+		}
+    }
+
 	@PostMapping("/user/create")
 	public void createAccount(@RequestBody UsersRequest message) {
 		try {
