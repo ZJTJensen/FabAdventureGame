@@ -45,4 +45,12 @@ import { Card } from 'fab-cards';
     public getUsers(): Observable<any> {
       return this.http.get<any>('http://localhost:8080/user/loggedInUsers')
     }
+
+    public addLevel(slug: string, newLevel: number): Observable<any> {
+      let userRequest = {
+          slug: slug,
+          userLevel: newLevel
+      }
+      return this.http.post<any>('http://localhost:8080/user/addLevel', userRequest, {responseType: 'string' as 'json'})
+  }
 }

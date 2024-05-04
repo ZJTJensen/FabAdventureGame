@@ -32,6 +32,7 @@
     <app-user-info 
     *ngIf="response.slug !== undefined && isDeckValid && userInfo"
         [userInfo]="userInfo" [limiters]="limiters" (quit)="quit($event)" 
-        (selectedCard)="saveSelectedCard($event)">
+        (selectedCard)="saveSelectedCard($event)"
+        (increaseLevel)="increaseLevel()">
     </app-user-info>
 </div>

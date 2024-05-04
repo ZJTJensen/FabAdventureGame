@@ -108,6 +108,10 @@ export class FabMainComponent {
     this.userService.addCard(this.response.slug, this.cardSelected);
   }
 
+  public increaseLevel(){
+  this.userService.addLevel(this.response.slug, this.userInfo.userLevel + 1);
+  }
+
   public signUp(){
     this.userService.setUserInfo(this.response.slug, this.phone, this.response);
   }

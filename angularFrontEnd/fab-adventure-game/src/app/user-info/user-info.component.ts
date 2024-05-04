@@ -17,6 +17,7 @@ export class UserInfoComponent implements OnInit {
   @Input() limiters: any;
   @Output() quit = new EventEmitter<string>();
   @Output() selectedCard = new EventEmitter<Card>();
+  @Output() increaseLevel = new EventEmitter<Card>();
 
   public deckService: FabDbService;
   public userService: UserService;
@@ -27,6 +28,9 @@ export class UserInfoComponent implements OnInit {
   }
   public ngOnInit(): void {
     this.getUsersInBracket(this.userInfo.user);
+  }
+  publicAddUserLevel() {
+    this.increaseLevel.emit();
   }
   public quitFunc(event: string) {
     this.quit.emit(event);
