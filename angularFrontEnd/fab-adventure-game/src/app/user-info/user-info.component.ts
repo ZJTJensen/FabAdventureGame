@@ -29,7 +29,7 @@ export class UserInfoComponent implements OnInit {
   public ngOnInit(): void {
     this.getUsersInBracket(this.userInfo.user);
   }
-  publicAddUserLevel() {
+  increaseUserLevel() {
     this.increaseLevel.emit();
   }
   public quitFunc(event: string) {
