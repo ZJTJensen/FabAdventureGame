@@ -55,13 +55,14 @@ public class UserService {
         return user;
     }
     public void creteUser(String phone, Decks deck, String userName){
-        try {
-            dataSource.getConnection().prepareStatement(
-                "insert into users(slug, phoneNumber, userName, userLevel)"
-                +" values ('"
-                + deck.getSlug() + "','" + phone 
-                + "', '" + userName + "', '1')"
-            ).executeQuery().close();
+        try (java.sql.Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(
+            "INSERT INTO users(slug, phoneNumber, userName, userLevel) VALUES (?, ?, ?, ?)")) {
+            preparedStatement.setString(1, deck.getSlug());
+            preparedStatement.setString(2, phone);
+            preparedStatement.setString(3, userName);
+            preparedStatement.setInt(4, 1);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,25 +80,24 @@ public class UserService {
     }
 
     public void addCardToUserDeck( String slug, Cards card){
-        try {
-            Optional<String> sku = card.getPrintings().stream()
-            .filter(printing -> "Regular".equals(printing.getFinish()))
-            .map(printing -> printing.getSku().getSku())
-            .findFirst();
-            if (!sku.isPresent()) {
-                sku = card.getPrintings().stream()
-                    .map(printing -> printing.getSku().getSku())
-                    .findFirst();
-            }
-            dataSource.getConnection().prepareStatement(
-                "insert into cards(slug, identifier)"+
-                " values ('" + slug + "','" + sku + "')"
-            ).executeQuery().close();
-           
+        try (java.sql.Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(
+            "INSERT INTO cards(slug, identifier) VALUES (?, ?)")) {
+       Optional<String> sku = card.getPrintings().stream()
+           .filter(printing -> "Regular".equals(printing.getFinish()))
+           .map(printing -> printing.getSku().getSku())
+           .findFirst();
+       if (!sku.isPresent()) {
+           sku = card.getPrintings().stream()
+               .map(printing -> printing.getSku().getSku())
+               .findFirst();
+       }
+            preparedStatement.setString(1, slug);
+            preparedStatement.setString(2, sku.orElse(null));
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
     public boolean getUsersInBracket(String slug){
         return true;
