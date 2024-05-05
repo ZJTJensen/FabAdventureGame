@@ -3,6 +3,7 @@ package com.fabAdventure.fabAdventure.service;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -78,6 +79,28 @@ public class UserService {
             e.printStackTrace();
         }
     }
+
+    public ArrayList<Cards> getCards(String slug) {
+    ArrayList<Cards> cards = new ArrayList<>();
+    String sql = "SELECT * FROM cards WHERE slug = ?";
+
+    try (java.sql.Connection connection = dataSource.getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        preparedStatement.setString(1, slug);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            Cards card = new Cards();
+            card.setIdentifier(resultSet.getString("identifier"));
+            card.setSlug(resultSet.getString("slug"));
+            cards.add(card);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return cards;
+}
 
     public void resetUserLevel(String slug) {
         try (java.sql.Connection connection = dataSource.getConnection();

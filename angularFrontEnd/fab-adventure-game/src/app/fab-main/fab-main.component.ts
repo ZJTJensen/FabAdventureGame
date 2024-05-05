@@ -27,7 +27,7 @@ export class FabMainComponent {
   }
   public response: any = new Object() as Deck;
   public deckUrl: string = "";
-  public cardList: Array<Card> = new Array<Card>();
+  public cardList: Array<any> = new Array<any>();
   public cardSelected: FabCard = new Object() as FabCard;
   public limiters: any = new Object();
   public users: any;
@@ -42,8 +42,9 @@ export class FabMainComponent {
   public login() {
     this.logingIn = true;
     this.getUser().pipe(
-      tap(user => {
-        this.userInfo = user.slug ? user : undefined;
+      tap(userAndDeck => {
+        this.userInfo = userAndDeck.user.slug ? userAndDeck.user : undefined;
+        this.cardList = userAndDeck.cards.length > 0 ? userAndDeck.cards : this.cardList;
       }),
       switchMap(() => {
         this.logingIn = false;
@@ -143,20 +144,26 @@ export class FabMainComponent {
 
   public checkValidity() {
     let userLevel = this.userInfo ? this.userInfo.userLevel : 0;
+    let cardsInDeck: any = [];
     let rareCardCount = 0;
     let majesticCount = 0;
     for (let card of this.cardList){
       if(!card.keywords.includes("hero")){
-
-        if (card.rarity === 'R'){
-          rareCardCount++;
-        } else if (card.rarity === 'M' || card.rarity === 'S'){
-          majesticCount++;
-        }
+        // Allows users to have up to 2 coppies of the slected card.
+        if (!cardsInDeck.includes(card)) {
+          if (card.rarity === 'R'){
+            cardsInDeck.push(card);
+            rareCardCount++;
+          } else if (card.rarity === 'M' || card.rarity === 'S'){
+            cardsInDeck.push(card);
+            majesticCount++;
+          }
+       }
       }
     }
     if ((rareCardCount +  majesticCount) <= userLevel) {
       this.isDeckValid = true;
+      this.userInfo.needsToSelectNewCard = true;
     }
   }
 

@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 export class UserInfoComponent implements OnInit {
   @Input() userInfo: any;
   @Input() limiters: any;
+  @Input() cardList: Array<any> = [];
   @Output() quit = new EventEmitter<string>();
   @Output() selectedCard = new EventEmitter<Card>();
   @Output() increaseLevel = new EventEmitter<Card>();
@@ -27,7 +28,7 @@ export class UserInfoComponent implements OnInit {
     this.userService = userService
   }
   public ngOnInit(): void {
-    this.getUsersInBracket(this.userInfo.user);
+    // this.getUsersInBracket(this.userInfo.user);
   }
   increaseUserLevel() {
     this.increaseLevel.emit();

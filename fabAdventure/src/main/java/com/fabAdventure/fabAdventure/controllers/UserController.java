@@ -1,4 +1,6 @@
 package com.fabAdventure.fabAdventure.controllers;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fabAdventure.fabAdventure.service.UserService;
+import com.fabAdventure.models.Cards;
+import com.fabAdventure.models.UserAndCards;
 import com.fabAdventure.models.Users;
 import com.fabAdventure.models.UsersRequest;
 
@@ -18,20 +22,38 @@ public class UserController {
 	@Autowired
 	private UserService userService;
     @PostMapping("/user/fetch")
-	public Users fetchAccount(@RequestBody UsersRequest message) {
+	public UserAndCards fetchAccount(@RequestBody UsersRequest message) {
 		try {
-			return this.userService.doesUserExist(message.getSlug());
+			Users user = this.userService.doesUserExist(message.getSlug());
+			if (user != null) {
+				ArrayList<Cards> cards = userService.getCards(message.getSlug());
+				UserAndCards response = new UserAndCards();
+				response.setUser(user);
+				response.setCards(cards);
+				return response;
+			} else {
+				return new UserAndCards();
+			}
 		} catch (Exception e) {
 			System.out.println("error e" + e.getMessage().toString());
-			return new Users();
+			return new UserAndCards();
 		}
+	}
     	
-    }
 
 	@PostMapping("/user/addLevel")
 	public void addLevel(@RequestBody UsersRequest message) {
 		try {
 			this.userService.updateUserLevel(message.getSlug(), message.getUserLevel());
+		} catch (Exception e) {
+			System.out.println("error e" + e.getMessage().toString());
+		}
+    }
+
+	@PostMapping("/user/getCards")
+	public void getCards(@RequestBody UsersRequest message) {
+		try {
+			this.userService.getCards(message.getSlug());
 		} catch (Exception e) {
 			System.out.println("error e" + e.getMessage().toString());
 		}

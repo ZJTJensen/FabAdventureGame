@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name ="CARDS")
 public class Cards {
+    @Column private String slug;
     @Column private String identifier;
     @Column private String name;
     @Column private String rarity;
@@ -28,6 +29,14 @@ public class Cards {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getName() {

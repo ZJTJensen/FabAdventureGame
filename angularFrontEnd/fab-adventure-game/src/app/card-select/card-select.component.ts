@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Card, cards } from "fab-cards";
 import { FabDbService } from '../service/fabDb.service';
+import { Card as FabCard } from "fab-cards";
 import { map } from 'rxjs';
 
 @Component({
@@ -13,6 +14,7 @@ import { map } from 'rxjs';
 })
 export class CardSelectComponent implements OnInit{
   @Input() cardLimiters: any;
+  @Input() cardList: Array<any> = [];
   @Output() quit = new EventEmitter<string>();
   @Output() selectedCard = new EventEmitter<Card>();
   private fabDbService: FabDbService;
@@ -27,7 +29,10 @@ export class CardSelectComponent implements OnInit{
     this.cresteCardList();
     for (let i =0;i < 3;) {
       let response = this.pullCard();
-      if((response.types.includes("Equipment") && !response.types.includes("Action")) || response.types.includes('Weapon')) {
+      if(this.cardList.some(card => card.identifier === response.identifier)){
+        console.log("Card already in deck")
+    }
+      else if((response.types.includes("Equipment") && !response.types.includes("Action")) || response.types.includes('Weapon')) {
         console.log("Invalid card pulled")
       } else {
         i++;
