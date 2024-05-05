@@ -37,6 +37,43 @@ public class UserController {
 		}
     }
 
+	@PostMapping("/admin/resetLevel")
+	public void resetLevel(@RequestBody UsersRequest message) {
+		try {
+			this.userService.resetUserLevel(message.getSlug());
+		} catch (Exception e) {
+			System.out.println("error e" + e.getMessage().toString());
+		}
+    }
+
+	@PostMapping("/admin/changeUserName")
+	public void changeUserName(@RequestBody UsersRequest message) {
+		try {
+			this.userService.changeUserName(message.getSlug(), message.getUserName());
+		} catch (Exception e) {
+			System.out.println("error e" + e.getMessage().toString());
+		}
+    }
+
+	@PostMapping("/admin/changePhone")
+	public void changePhone(@RequestBody UsersRequest message) {
+		try {
+			this.userService.changePhone(message.getSlug(), message.getPhone());
+		} catch (Exception e) {
+			System.out.println("error e" + e.getMessage().toString());
+		}
+    }
+
+	@PostMapping("/admin/deleteUser")
+	public void deleteUser(@RequestBody UsersRequest message) {
+		try {
+			this.userService.deleteUserCards(message.getSlug());
+			this.userService.deleteUser(message.getSlug());
+		} catch (Exception e) {
+			System.out.println("error e" + e.getMessage().toString());
+		}
+    }
+
 	@PostMapping("/user/create")
 	public void createAccount(@RequestBody UsersRequest message) {
 		try {

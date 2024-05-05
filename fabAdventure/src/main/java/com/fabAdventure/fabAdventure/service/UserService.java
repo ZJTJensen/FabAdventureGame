@@ -79,6 +79,63 @@ public class UserService {
         }
     }
 
+    public void resetUserLevel(String slug) {
+        try (java.sql.Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                 "UPDATE users SET userLevel = 1 WHERE slug = ?")) {
+            preparedStatement.setString(1, slug);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changePhone(String slug, String newPhone) {
+        try (java.sql.Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                 "UPDATE users SET phone = ? WHERE slug = ?")) {
+            preparedStatement.setString(1, newPhone);
+            preparedStatement.setString(2, slug);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void changeUserName(String slug, String newUserName) {
+        try (java.sql.Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                 "UPDATE users SET userName = ? WHERE slug = ?")) {
+            preparedStatement.setString(1, newUserName);
+            preparedStatement.setString(2, slug);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUser(String slug) {
+        try (java.sql.Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                 "DELETE FROM users WHERE slug = ?")) {
+            preparedStatement.setString(1, slug);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUserCards(String slug) {
+        try (java.sql.Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                 "DELETE FROM cards WHERE slug = ?")) {
+            preparedStatement.setString(1, slug);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addCardToUserDeck( String slug, Cards card){
         try (java.sql.Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(
