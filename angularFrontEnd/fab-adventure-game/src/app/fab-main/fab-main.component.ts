@@ -105,15 +105,40 @@ export class FabMainComponent {
   }
   public saveSelectedCard(event: FabCard){
     this.cardSelected = event;
-    this.userService.addCard(this.response.slug, this.cardSelected);
+    this.userService.addCard(this.response.slug, this.cardSelected).subscribe(
+      response => {
+          console.log(response);
+          this.login();
+      },
+      error => {
+          console.error(error);
+      }
+  );
   }
 
   public increaseLevel(){
-  this.userService.addLevel(this.response.slug, this.userInfo.userLevel + 1);
+    this.userService.addLevel(this.response.slug, this.userInfo.userLevel + 1)
+    .subscribe(
+        response => {
+            console.log(response);
+            this.login();
+        },
+        error => {
+            console.error(error);
+        }
+    );
   }
 
   public signUp(){
-    this.userService.setUserInfo(this.response.slug, this.phone, this.response);
+    this.userService.setUserInfo(this.response.slug, this.phone, this.response).subscribe(
+      response => {
+          console.log(response);
+          this.login();
+      },
+      error => {
+          console.error(error);
+      }
+  );
   }
 
   public checkValidity() {

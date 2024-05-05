@@ -25,21 +25,21 @@ import { Card } from 'fab-cards';
         phoneNumber: phoneNumber,
         deck: deck
       }
-      return this.http.post<any>('http://localhost:8080/user/create', userRequest, {responseType: 'string' as 'json'})
+      return this.http.post<any>('http://localhost:8080/user/create', userRequest)
     }
     public addCard(userKey: string, card: Card): Observable<any> {
       let userRequest = {
         user: userKey,
         card: card
       }
-      return this.http.post<any>('http://localhost:8080/user/card', userRequest, {responseType: 'string' as 'json'})
+      return this.http.post<any>('http://localhost:8080/user/card', userRequest)
     }
 
     public getUseresInBracked(userKey: string): Observable<any> {
       let userRequest = {
         user: userKey
       }
-      return this.http.post<any>('http://localhost:8080/user/usersInBracket', userRequest, {responseType: 'string' as 'json'})
+      return this.http.post<any>('http://localhost:8080/user/usersInBracket', userRequest)
     }
 
     public getUsers(): Observable<any> {
@@ -51,6 +51,6 @@ import { Card } from 'fab-cards';
           slug: slug,
           userLevel: newLevel
       }
-      return this.http.post<any>('http://localhost:8080/user/addLevel', userRequest, {responseType: 'string' as 'json'})
+      return this.http.post<any>('http://localhost:8080/user/addLevel', userRequest)
   }
 }

@@ -57,7 +57,7 @@ public class UserService {
     public void creteUser(String phone, Decks deck, String userName){
         try (java.sql.Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(
-            "INSERT INTO users(slug, phoneNumber, userName, userLevel) VALUES (?, ?, ?, ?)")) {
+            "INSERT INTO users(slug, phoneNumber, username, userlevel) VALUES (?, ?, ?, ?)")) {
             preparedStatement.setString(1, deck.getSlug());
             preparedStatement.setString(2, phone);
             preparedStatement.setString(3, userName);
@@ -70,7 +70,7 @@ public class UserService {
     public void updateUserLevel(String slug, Integer newLevel) {
         try (java.sql.Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                 "UPDATE users SET userLevel = ? WHERE slug = ?")) {
+                 "UPDATE users SET userlevel = ? WHERE slug = ?")) {
             preparedStatement.setInt(1, newLevel);
             preparedStatement.setString(2, slug);
             preparedStatement.executeUpdate();
@@ -82,7 +82,7 @@ public class UserService {
     public void resetUserLevel(String slug) {
         try (java.sql.Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                 "UPDATE users SET userLevel = 1 WHERE slug = ?")) {
+                 "UPDATE users SET userlevel = 1 WHERE slug = ?")) {
             preparedStatement.setString(1, slug);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -105,7 +105,7 @@ public class UserService {
     public void changeUserName(String slug, String newUserName) {
         try (java.sql.Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                 "UPDATE users SET userName = ? WHERE slug = ?")) {
+                 "UPDATE users SET username = ? WHERE slug = ?")) {
             preparedStatement.setString(1, newUserName);
             preparedStatement.setString(2, slug);
             preparedStatement.executeUpdate();

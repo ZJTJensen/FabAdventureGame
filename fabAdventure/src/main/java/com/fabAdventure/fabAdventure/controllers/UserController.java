@@ -12,12 +12,12 @@ import com.fabAdventure.models.UsersRequest;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/user")
+@RequestMapping("/")
 
 public class UserController {
 	@Autowired
 	private UserService userService;
-    @PostMapping("/fetch")
+    @PostMapping("/user/fetch")
 	public Users fetchAccount(@RequestBody UsersRequest message) {
 		try {
 			return this.userService.doesUserExist(message.getSlug());
@@ -83,12 +83,12 @@ public class UserController {
 		}
     }
 
-	@PostMapping("/card")
+	@PostMapping("/user/card")
 	public void addCard(@RequestBody UsersRequest message) {
     	this.userService.addCardToUserDeck(message.getDeck().getSlug(), message.getCard());
     }
 
-	@PostMapping("/usersInBracket")
+	@PostMapping("/user/usersInBracket")
 	public boolean getUsersInBracket(@RequestBody UsersRequest message) {
     	return userService.getUsersInBracket(message.getSlug());
     }
