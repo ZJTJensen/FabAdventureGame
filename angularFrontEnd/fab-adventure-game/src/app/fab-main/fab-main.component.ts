@@ -133,7 +133,7 @@ export class FabMainComponent {
   }
 
   public signUp(){
-    this.userService.setUserInfo(this.response.slug, this.phone, this.response).subscribe(
+    this.userService.setUserInfo(this.userName, this.phone, this.response).subscribe(
       response => {
           console.log(response);
           this.login();
@@ -152,13 +152,13 @@ export class FabMainComponent {
     let rareCardCount = 0;
     let majesticCount = 0;
     for (let card of this.cardList){
-      if(!card.keywords.includes("hero")){
+      if(!card.keywords.includes("hero")) {
         // Allows users to have up to 2 coppies of the slected card.
         if (!cardsInDeck.includes(card)) {
           if (card.rarity === 'R'){
             cardsInDeck.push(card);
             rareTotalCardCount++;
-          } else if (card.rarity === 'M' || card.rarity === 'S'){
+          } else if (card.rarity === 'M' || card.rarity === 'S'|| card.rarity === 'L'){
             this.cardList.push(card);
             majesticTotalCount++;
           }
@@ -167,7 +167,7 @@ export class FabMainComponent {
         if (card.rarity === 'R'){
           this.cardList.push(card);
           rareCardCount++;
-        } else if (card.rarity === 'M' || card.rarity === 'S'){
+        } else if (card.rarity === 'M' || card.rarity === 'S'|| card.rarity === 'L') {
           this.cardList.push(card);
           majesticCount++;
         }

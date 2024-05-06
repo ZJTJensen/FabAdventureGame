@@ -7,9 +7,9 @@ public class UsersRequest {
 
     @Column private String slug;
 	@Column private Cards card;
-	@Column private String phone; 
+	@Column private String phoneNumber; 
 	@Column private Decks deck; 
-    @Column private String userName; 
+    @Column private String user; 
     @Column private Integer userLevel; 
 
     public String getSlug() {
@@ -26,12 +26,12 @@ public class UsersRequest {
         this.card = card;
     }
 
-    public String getPhone() {
-        return this.phone;
+    public String getPhoneNumber() {
+        return this.phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Decks getDeck() {
@@ -41,12 +41,12 @@ public class UsersRequest {
     public void setDeck(Decks deck) {
         this.deck = deck;
     }
-    public String getUserName() {
-        return this.userName;
+    public String getUser() {
+        return this.user;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUser(String user) {
+        this.user = user;
     }
     public Integer getUserLevel() {
         return this.userLevel;

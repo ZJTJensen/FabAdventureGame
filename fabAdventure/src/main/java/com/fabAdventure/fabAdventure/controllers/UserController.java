@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fabAdventure.fabAdventure.service.UserService;
-import com.fabAdventure.models.Cards;
 import com.fabAdventure.models.UserAndCards;
 import com.fabAdventure.models.Users;
 import com.fabAdventure.models.UsersRequest;
@@ -72,7 +71,7 @@ public class UserController {
 	@PostMapping("/admin/changeUserName")
 	public void changeUserName(@RequestBody UsersRequest message) {
 		try {
-			this.userService.changeUserName(message.getSlug(), message.getUserName());
+			this.userService.changeUserName(message.getSlug(), message.getUser());
 		} catch (Exception e) {
 			System.out.println("error e" + e.getMessage().toString());
 		}
@@ -81,7 +80,7 @@ public class UserController {
 	@PostMapping("/admin/changePhone")
 	public void changePhone(@RequestBody UsersRequest message) {
 		try {
-			this.userService.changePhone(message.getSlug(), message.getPhone());
+			this.userService.changePhone(message.getSlug(), message.getPhoneNumber());
 		} catch (Exception e) {
 			System.out.println("error e" + e.getMessage().toString());
 		}
@@ -100,7 +99,7 @@ public class UserController {
 	@PostMapping("/user/create")
 	public void createAccount(@RequestBody UsersRequest message) {
 		try {
-			this.userService.creteUser(message.getPhone(), message.getDeck(), message.getUserName());
+			this.userService.creteUser(message.getPhoneNumber(), message.getDeck(), message.getUser());
 		} catch (Exception e) {
 			System.out.println("error e" + e.getMessage().toString());
 		}
