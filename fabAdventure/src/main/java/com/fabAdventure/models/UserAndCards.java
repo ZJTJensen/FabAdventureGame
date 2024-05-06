@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class UserAndCards {
     private Users user;
-    private ArrayList<Cards> cards;
+    private ArrayList<?> cards;
 
     public Users getUser() {
         return user;
@@ -15,11 +15,11 @@ public class UserAndCards {
         this.user = user;
     }
 
-    public ArrayList<Cards> getCards() {
+    public ArrayList<?> getCards() {
         return cards;
     }
 
-    public void setCards(ArrayList<Cards> cards) {
+    public void setCards(ArrayList<?> cards) {
         this.cards = cards;
     }
 }

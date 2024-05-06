@@ -26,7 +26,7 @@ public class UserController {
 		try {
 			Users user = this.userService.doesUserExist(message.getSlug());
 			if (user != null) {
-				ArrayList<Cards> cards = userService.getCards(message.getSlug());
+				ArrayList<?> cards = userService.getCards(message.getSlug());
 				UserAndCards response = new UserAndCards();
 				response.setUser(user);
 				response.setCards(cards);
@@ -63,6 +63,7 @@ public class UserController {
 	public void resetLevel(@RequestBody UsersRequest message) {
 		try {
 			this.userService.resetUserLevel(message.getSlug());
+			this.userService.deleteUserCards(message.getSlug());
 		} catch (Exception e) {
 			System.out.println("error e" + e.getMessage().toString());
 		}
@@ -107,7 +108,7 @@ public class UserController {
 
 	@PostMapping("/user/card")
 	public void addCard(@RequestBody UsersRequest message) {
-    	this.userService.addCardToUserDeck(message.getSlug(), message.getCard());
+    	this.userService.addCardToUserDeck(message);
     }
 
 	@PostMapping("/user/usersInBracket")

@@ -22,7 +22,7 @@ public class Cards {
     @ElementCollection private ArrayList<Printings> printings;
     @Column private String flavour;
     @Column private String comments;
-    @Column private String image;
+    @Column private String defaultImage;
     @Column private int total;
 
     public String getCardIdentifier() {
@@ -30,7 +30,7 @@ public class Cards {
     }
 
     public void setCardIdentifier(String cardIdentifier) {
-        this.cardIdentifier = identifier;
+        this.cardIdentifier = cardIdentifier;
     }
     public String getIdentifier() {
         return identifier;
@@ -112,12 +112,12 @@ public class Cards {
         this.comments = comments;
     }
 
-    public String getImage() {
-        return image;
+    public String getDefaultImage() {
+        return defaultImage;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setDefaultImage(String defaultImage) {
+        this.defaultImage = defaultImage;
     }
 
     public int getTotal() {

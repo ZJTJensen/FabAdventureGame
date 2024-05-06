@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.fabAdventure.models.Cards;
 import com.fabAdventure.models.Decks;
 import com.fabAdventure.models.Users;
+import com.fabAdventure.models.UsersRequest;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -61,7 +62,7 @@ public class UserService {
             preparedStatement.setString(1, deck.getSlug());
             preparedStatement.setString(2, phone);
             preparedStatement.setString(3, userName);
-            preparedStatement.setInt(4, 1);
+            preparedStatement.setInt(4, 0);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -80,31 +81,31 @@ public class UserService {
     }
 
     public ArrayList<Cards> getCards(String slug) {
-    ArrayList<Cards> cards = new ArrayList<>();
-    String sql = "SELECT * FROM cards WHERE slug = ?";
+        ArrayList<Cards> cards = new ArrayList<>();
+        String sql = "select * from cards where slug = ?";
 
-    try (java.sql.Connection connection = dataSource.getConnection();
-         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-        preparedStatement.setString(1, slug);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        try (java.sql.Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, slug);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-        while (resultSet.next()) {
-            Cards card = new Cards();
-            card.setIdentifier(resultSet.getString("identifier"));
-            card.setSlug(resultSet.getString("slug"));
-            cards.add(card);
+            while (resultSet.next()) {
+                Cards card = new Cards();
+                card.setIdentifier(resultSet.getString("cardIdentifier"));
+                card.setSlug(resultSet.getString("slug"));
+                cards.add(card);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
 
-    return cards;
-}
+        return cards;
+    }
 
     public void resetUserLevel(String slug) {
         try (java.sql.Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                 "UPDATE users SET userlevel = 1 WHERE slug = ?")) {
+                 "UPDATE users SET userlevel = 0 WHERE slug = ?")) {
             preparedStatement.setString(1, slug);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -158,13 +159,14 @@ public class UserService {
         }
     }
 
-    public void addCardToUserDeck( String slug, Cards card){
+    public void addCardToUserDeck(UsersRequest message){
         try (java.sql.Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(
-            "INSERT INTO cards(slug, identifier) VALUES (?, ?)")) {
-       String identifier = card.getIdentifier();
-            preparedStatement.setString(1, slug);
-            preparedStatement.setString(2, identifier);
+            "INSERT INTO cards(\"slug\", \"cardIdentifier\") VALUES (?, ?)")) {
+                System.err.println("slug: " + message.getSlug());
+                System.err.println("card: " + message.getCard().getCardIdentifier());
+            preparedStatement.setString(1, message.getSlug());
+            preparedStatement.setString(2, message.getCard().getCardIdentifier());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

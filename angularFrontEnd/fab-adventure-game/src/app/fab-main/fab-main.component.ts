@@ -38,12 +38,14 @@ export class FabMainComponent {
   public logingIn: boolean = false;
   public loginValue: string = "";
   public userName: string = "";
+  public isLoggedIn: boolean = false;
 
   public login() {
     this.logingIn = true;
     this.getUser().pipe(
       tap(userAndDeck => {
         this.userInfo = userAndDeck.user.slug ? userAndDeck.user : undefined;
+        this.isLoggedIn = this.userInfo ? true : false;
         this.cardList = userAndDeck.cards.length > 0 ? userAndDeck.cards : this.cardList;
       }),
       switchMap(() => {
@@ -145,6 +147,8 @@ export class FabMainComponent {
   public checkValidity() {
     let userLevel = this.userInfo ? this.userInfo.userLevel : 0;
     let cardsInDeck: any = [];
+    let rareTotalCardCount = 0;
+    let majesticTotalCount = 0;
     let rareCardCount = 0;
     let majesticCount = 0;
     for (let card of this.cardList){
@@ -153,17 +157,29 @@ export class FabMainComponent {
         if (!cardsInDeck.includes(card)) {
           if (card.rarity === 'R'){
             cardsInDeck.push(card);
-            rareCardCount++;
+            rareTotalCardCount++;
           } else if (card.rarity === 'M' || card.rarity === 'S'){
-            cardsInDeck.push(card);
-            majesticCount++;
+            this.cardList.push(card);
+            majesticTotalCount++;
           }
        }
+       if (!this.cardList.includes(card)) {
+        if (card.rarity === 'R'){
+          this.cardList.push(card);
+          rareCardCount++;
+        } else if (card.rarity === 'M' || card.rarity === 'S'){
+          this.cardList.push(card);
+          majesticCount++;
+        }
+     }
       }
     }
+
     if ((rareCardCount +  majesticCount) <= userLevel) {
       this.isDeckValid = true;
-      this.userInfo.needsToSelectNewCard = true;
+      if ((rareTotalCardCount +  majesticTotalCount) < userLevel) {
+        this.userInfo.needsToSelectNewCard = this.isLoggedIn ? true : false;
+      }
     }
   }
 
