@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -163,17 +162,9 @@ public class UserService {
         try (java.sql.Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(
             "INSERT INTO cards(slug, identifier) VALUES (?, ?)")) {
-       Optional<String> sku = card.getPrintings().stream()
-           .filter(printing -> "Regular".equals(printing.getFinish()))
-           .map(printing -> printing.getSku().getSku())
-           .findFirst();
-       if (!sku.isPresent()) {
-           sku = card.getPrintings().stream()
-               .map(printing -> printing.getSku().getSku())
-               .findFirst();
-       }
+       String identifier = card.getIdentifier();
             preparedStatement.setString(1, slug);
-            preparedStatement.setString(2, sku.orElse(null));
+            preparedStatement.setString(2, identifier);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

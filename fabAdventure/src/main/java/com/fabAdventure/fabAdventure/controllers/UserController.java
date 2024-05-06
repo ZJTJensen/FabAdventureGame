@@ -107,7 +107,7 @@ public class UserController {
 
 	@PostMapping("/user/card")
 	public void addCard(@RequestBody UsersRequest message) {
-    	this.userService.addCardToUserDeck(message.getDeck().getSlug(), message.getCard());
+    	this.userService.addCardToUserDeck(message.getSlug(), message.getCard());
     }
 
 	@PostMapping("/user/usersInBracket")

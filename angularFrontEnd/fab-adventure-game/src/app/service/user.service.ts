@@ -29,7 +29,7 @@ import { Card } from 'fab-cards';
     }
     public addCard(userKey: string, card: Card): Observable<any> {
       let userRequest = {
-        user: userKey,
+        slug: userKey,
         card: card
       }
       return this.http.post<any>('http://localhost:8080/user/card', userRequest)

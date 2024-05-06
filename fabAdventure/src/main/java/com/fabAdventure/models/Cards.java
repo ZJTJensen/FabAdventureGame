@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 @Table(name ="CARDS")
 public class Cards {
     @Column private String slug;
+    @Column private String cardIdentifier;
     @Column private String identifier;
     @Column private String name;
     @Column private String rarity;
@@ -23,6 +24,14 @@ public class Cards {
     @Column private String comments;
     @Column private String image;
     @Column private int total;
+
+    public String getCardIdentifier() {
+        return cardIdentifier;
+    }
+
+    public void setCardIdentifier(String cardIdentifier) {
+        this.cardIdentifier = identifier;
+    }
     public String getIdentifier() {
         return identifier;
     }

@@ -101,9 +101,9 @@ export class CardSelectComponent implements OnInit{
   }
 
   public choseCard(card: Card){
-  this.fabDbService.getCardData(card.setIdentifiers[0]).subscribe((data: Card) => {
-    this.selectedCard.emit(data);
-  });
+  // this.fabDbService.getCardData(card.setIdentifiers[0]).subscribe((data: Card) => {
+    this.selectedCard.emit(card);
+  // });
   }
 
   public returnHome(){
