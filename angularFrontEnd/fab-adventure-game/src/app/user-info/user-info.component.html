@@ -3,7 +3,7 @@
         To display user data
     </div>
 
-    <div>
+    <div *ngIf="isDeckValid">
         increase Level
         <button (click)="increaseUserLevel()">Increase Level</button>
     </div>

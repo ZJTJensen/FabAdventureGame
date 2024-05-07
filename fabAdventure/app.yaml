@@ -1,0 +1,7 @@
+runtime: java17
+
+
+env_variables:
+  DB_USER: "${DB_USER}"
+  DB_PASS: "${DB_PASS}"
+  INSTANCE_HOST: "34.42.55.8"

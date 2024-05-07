@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fabAdventure.models.Cards;
 import com.fabAdventure.models.Decks;
@@ -16,7 +18,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Service
 public class UserService {
-
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     private static final String INSTANCE_HOST = System.getenv("INSTANCE_HOST");
     private static final String DB_USER = System.getenv("DB_USER");
     private static final String DB_PASS = System.getenv("DB_PASS");
@@ -25,16 +28,23 @@ public class UserService {
 
     
   public UserService() {
-    HikariConfig config = new HikariConfig();
-    config.setJdbcUrl("jdbc:postgresql://" + INSTANCE_HOST + "/");
-    config.setUsername(DB_USER); 
-    config.setPassword(DB_PASS);
-    config.setMaximumPoolSize(5);
-    config.setMinimumIdle(5);
-    config.setConnectionTimeout(10000); // 10 seconds
-    config.setIdleTimeout(600000); // 10 minutes
-    config.setMaxLifetime(1800000);
-    this.dataSource = new HikariDataSource(config);
+    try{
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:postgresql://" + INSTANCE_HOST + "/fabodyssey");
+        config.setUsername(DB_USER); 
+        config.setPassword(DB_PASS);
+        config.setMaximumPoolSize(5);
+        config.setMinimumIdle(5);
+        config.setConnectionTimeout(10000); // 10 seconds
+        config.setIdleTimeout(600000); // 10 minutes
+        config.setMaxLifetime(1800000);
+        LOGGER.info("config: " + config);   
+        this.dataSource = new HikariDataSource(config);
+    } catch (Exception e) {
+        LOGGER.error("Error creating HikariDataSource", e);
+        throw e;
+    }
+
 }
   
 
