@@ -4,15 +4,23 @@
     </div>
 
     <div>
-        increase Level 
+        increase Level
         <button (click)="increaseUserLevel()">Increase Level</button>
     </div>
 
-    <app-card-select *ngIf="userInfo.needsToSelectNewCard" 
-        [cardLimiters] = 'limiters' [cardList] = "cardList" (quit)="quitFunc($event)" 
-            (selectedCard)="saveSelectedCardFunc($event)">
+    <app-card-select *ngIf="userInfo.needsToSelectNewCard" [cardLimiters]='limiters' [cardList]="cardList"
+        (quit)="quitFunc($event)" (selectedCard)="saveSelectedCardFunc($event)">
     </app-card-select>
-<!-- 
+
+    <div *ngIf="!userInfo.needsToSelectNewCard && !logingIn">
+        Owened cards:
+        <div class="cardDiv">
+        <div class='card-image' *ngFor="let card of owenedCards">
+            <img src="{{getCardImage(card.identifier)}}">
+        </div>
+        </div>
+    </div>
+    <!-- 
     <div *ngIf="userInfo">
         Who is logged in
         <div>

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FabDbService } from '../service/fabDb.service';
 import { UserService } from '../service/user.service';
 import { CardSelectComponent } from '../card-select/card-select.component';
-import { Card } from 'fab-cards';
+import { Card, cards } from 'fab-cards';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,7 +14,9 @@ import { CommonModule } from '@angular/common';
 })
 export class UserInfoComponent implements OnInit {
   @Input() userInfo: any;
+  @Input() logingIn: any;
   @Input() limiters: any;
+  @Input() owenedCards: any;
   @Input() cardList: Array<any> = [];
   @Output() quit = new EventEmitter<string>();
   @Output() selectedCard = new EventEmitter<Card>();
@@ -42,6 +44,21 @@ export class UserInfoComponent implements OnInit {
   public getUsersInBracket(users: any) {
     this.listOfUsersInBracket = [0, 2]
     return true;
+  }
+
+  public getCardImage(cardIdentifier: any) {
+    let cardUrl: any;
+    cards.forEach(card => { 
+      if (cardIdentifier === card.cardIdentifier) {
+          if(!card.defaultImage.includes('.png')) {
+              let cardLocation = card.defaultImage.split('.');
+              cardUrl = this.deckService.getImageUrl(cardLocation[0]);
+          } else {
+              cardUrl = card.defaultImage;
+          }
+      }
+    });
+    return cardUrl || '';
   }
 
 }
