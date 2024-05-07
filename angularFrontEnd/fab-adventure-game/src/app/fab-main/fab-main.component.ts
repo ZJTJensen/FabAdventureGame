@@ -166,7 +166,8 @@ export class FabMainComponent {
           }
        }
       }
-      else if(this.owenedCards.includes(card)){
+      
+      if(this.owenedCards.some(ownedCard => ownedCard.identifier.includes(card.identifier))){
         if (card.rarity === 'R'){
           cardsOwned.push(card);
           rareTotalCardCount++;
@@ -180,7 +181,7 @@ export class FabMainComponent {
     let cardCount = rareCardCount + majesticCount;
     if (cardCount <= userLevel) {
       this.isDeckValid = true;
-      if ((cardCount +  totalCount) < userLevel) {
+      if ((cardCount +  (this.owenedCards.length - totalCount)) < userLevel) {
         this.userInfo.needsToSelectNewCard = this.isLoggedIn ? true : false;
       }
     }
