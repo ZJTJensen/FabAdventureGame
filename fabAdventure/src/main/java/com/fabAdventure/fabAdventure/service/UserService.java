@@ -30,7 +30,7 @@ public class UserService {
   public UserService() {
     try{
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:postgresql://" + INSTANCE_HOST + "/fabodyssey");
+        config.setJdbcUrl("jdbc:postgresql://" + INSTANCE_HOST + "/"+ System.getenv("DB_NAME"));
         config.setUsername(DB_USER); 
         config.setPassword(DB_PASS);
         config.setMaximumPoolSize(5);
